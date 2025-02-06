@@ -7,6 +7,7 @@
     /**
      * @description Background colors.
      */
+    --bg-main: #121212;
     --bg-primary: #121212;
     --bg-secondary: #1E1E1E;
 
@@ -56,7 +57,7 @@ p, span {
  * @description Main backgrounds classes.
  */
 
-.bg-primary {
+.bg-main {
     background-color: var(--bg-primary);
 }
 
@@ -84,9 +85,6 @@ p, span {
 }
 .bg-success {
     background-color: var(--color-success);
-}
-.bg-secondary {
-    background-color: var(--color-secondary);
 }
 .bg-dark {
     background-color: var(--bg-primary);
