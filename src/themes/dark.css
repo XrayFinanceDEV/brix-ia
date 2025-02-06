@@ -7,6 +7,7 @@
     /**
      * @description Background colors.
      */
+    --bg-main: #121212;
     --bg-primary: #121212;
     --bg-secondary: #1E1E1E;
 
@@ -14,12 +15,13 @@
      * @description Basic colors colors.
      */
     --color-accent: #80FDBE;
+    --color-accent-dark: #2DF28E;
     --color-accent-hover: #00E0C6;
     --color-danger: #FF4B4B;
     --color-dark: #2D2D2D;
     --color-gray: #F5F5F5;
     --color-white: #FFFFFF;
-    --color-primary: #0A1F44;
+    --color-primary: #1C355F;
     --color-success: #80FDBE;
     --color-secondary: #9C95F6;
     --color-warning: #FFC107;
@@ -48,4 +50,83 @@ h1, h2, h3, h4, h5, h6 {
 
 p, span {
     color: var(--color-text-secondary);
+}
+
+/**
+ * BACKGROUNDS
+ * @description Main backgrounds classes.
+ */
+
+.bg-main {
+    background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+    background-color: var(--bg-secondary);
+}
+
+.bg-accent {
+    background-color: var(--color-accent);
+}
+.bg-accent-dark {
+    background-color: var(--color-accent-dark);
+}
+.bg-primary {
+    background-color: var(--color-primary);
+}
+.bg-danger {
+    background-color: var(--color-danger);
+}
+.bg-white {
+    background-color: var(--color-white);
+}
+.bg-gray {
+    background-color: var(--color-gray);
+}
+.bg-success {
+    background-color: var(--color-success);
+}
+.bg-dark {
+    background-color: var(--bg-primary);
+}
+
+/**
+ * TEXTS
+ * @description Main texts classes.
+ */
+
+.text-main {
+    color: var(--color-text-main);
+}
+
+.text-secondary {
+    color: var(--color-text-secondary);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+.text-accent-dark {
+    color: var(--color-accent-dark);
+}
+.text-primary {
+    color: var(--color-primary);
+}
+.text-danger {
+    color: var(--color-danger);
+}
+.text-white {
+    color: var(--color-white);
+}
+.text-gray {
+    color: var(--color-gray);
+}
+.text-success {
+    color: var(--color-success);
+}
+.text-secondary {
+    color: var(--color-secondary);
+}
+.text-dark {
+    color: var(--bg-primary);
 }
