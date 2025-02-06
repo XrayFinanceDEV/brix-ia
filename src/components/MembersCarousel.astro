@@ -1,0 +1,65 @@
+﻿---
+import MainLayout from "@layouts/MainLayout.astro"
+import { getEntry } from 'astro:content';
+
+const { data }  = await getEntry('pagedata', 'about');
+const { name, image, bio, socialLinks } = data;
+
+const images = [
+  { src: image, alt: "First image" },
+  { src: image, alt: "Second image" },
+  { src: image, alt: "Third image" },
+  { src: image, alt: "Fourth image" },
+  { src: image, alt: "FIfth image" },
+  { src: image, alt: "Sixth image" },
+  { src: image, alt: "Seventh image" },
+];
+
+---
+
+<MainLayout title={name}>
+  <section class="inset-0">
+    <div class="image-grid">
+      {images.map((img) => (
+        <img src={img.src} alt={img.alt} class="image-item" loading="lazy" />
+      ))}
+  </div>
+  
+  <style>
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr); /* 8 equal-width columns */
+      grid-gap: 30px; /* Spacing between images */
+      padding: 30px;
+      width: 100%; /* Ensure the grid takes the full width */
+      box-sizing: border-box;
+      overflow: hidden; /* Hide the part of the grid that's outside the viewport */
+      animation: slide 20s linear infinite; /* Animate the grid to slide */
+    }
+  
+    .image-item {
+      width: 100%; /* Ensure images take up full grid space */
+      height: 100%; /* Ensures the height matches the width */
+      aspect-ratio: 1 / 1; /* Maintain 1:1 ratio */
+      border-radius: 50%; /* Circular images */
+      object-fit: cover; /* Prevent distortion */
+      border: 5px solid #80FDBE; /* Green border */
+      box-sizing: border-box;
+      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.5)
+    }
+  
+    /* @keyframes slide {
+    /*   from {
+    /*     transform: translateX(0); /* Start at the initial position */
+    /*   }
+    /*   to {
+    /*     transform: translateX(-100%); /* Move the grid to the left */
+    /*   }
+    /* } */
+  </style>
+  
+  
+  
+  </section>
+</MainLayout>
+
