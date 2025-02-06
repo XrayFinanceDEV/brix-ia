@@ -1,13 +1,4 @@
 ---
-const links = [
-  { name: "Home", href: "#" },
-  { name: "Community", href: "#" },
-  { name: "Tutorial", href: "#" },
-  { name: "News", href: "#" },
-  { name: "Entra in BrixIA", href: "#" }
-];
-
-
 ---
 <html lang="it">
   <head>
@@ -82,15 +73,7 @@ const links = [
     </style>
   </head>
   <body>
-      <div class="container">
-          <header class="header">
-              <div class="logo">BrixIA</div>
-              <nav class="nav">
-                  {links.map(link => (
-                      <a href={link.href}>{link.name}</a>
-                    ))}
-            </nav>
-            </header>
+      <div class="container">   
             <main class="main">
                 <h1>
                     Inizia oggi la tua nuova carriera
