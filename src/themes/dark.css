@@ -1,0 +1,60 @@
+/**
+ * THEME COLORS
+ * @description List of colors used all around the application.
+ */
+
+ :root {
+    /**
+     * @description Background colors.
+     */
+    --bg-primary: #121212;
+    --bg-secondary: #1E1E1E;
+
+    /**
+     * @description Basic colors colors.
+     */
+    --color-accent: #80FDBE;
+    --color-accent-hover: #00E0C6;
+    --color-danger: #FF4B4B;
+    --color-dark: #2D2D2D;
+    --color-gray: #F5F5F5;
+    --color-white: #FFFFFF;
+    --color-primary: #0A1F44;
+    --color-success: #80FDBE;
+    --color-secondary: #9C95F6;
+    --color-warning: #FFC107;
+
+    /**
+     * @description Text colors.
+     */
+    --color-text-main: #E0E0E0;
+    --color-text-secondary: #B0B0B0;
+}
+
+
+/**
+ * GLOBAL STYLES
+ * @description Styles applied as default to the main HTML element.
+ */
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--color-text-main);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text-main);
+}
+
+p, span {
+    color: var(--color-text-secondary);
+}
+
+/**
+ * BACKGROUNDS
+ * @description Main backgrounds.
+ */
+
+.bg-primary {
+    background-color: var(--bg-primary);
+}
