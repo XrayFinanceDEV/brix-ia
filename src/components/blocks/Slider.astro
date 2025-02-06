@@ -17,7 +17,7 @@ interface Props {
 }
 
 const { files, interval = 5000 } = Astro.props;
-const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "http://api.brix-ia.com:1337";
+const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com";
 const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
 ---
 

@@ -23,7 +23,7 @@ type Props = { post: CollectionEntry<"strapiPostsLoader"> };
 
 const { post } = Astro.props as Props;
 
-const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "http://api.brix-ia.com:1337";
+const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com";
 
 if (!post) return Astro.rewrite("/404");
 const { title, cover, blocks } = post.data;
