@@ -4,8 +4,8 @@ const { title, link } = Astro.props;
 ---
 
 <MainLayout title={title}>
-  <div class="container mx-auto px-4 w-3/4">
-    <a href={link} class="text-[var(--color-accent-dark)] hover:text-green-600 mb-4 inline-block mt-[100px]">&larr; Torna al blog</a>
+  <div class="container mx-auto px-4 w-9/10 md:w-3/4">
+    <a href={link} class="text-[var(--color-accent-dark)] hover:text-green-600 mb-4 inline-block mt-24 md:mt-[100px]">&larr; Torna al blog</a>
     <article class="prose prose-lg max-w-none">
       <slot />
     </article>
