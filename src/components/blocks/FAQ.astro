@@ -20,7 +20,7 @@ const { faq } = Astro.props as Props;
         <button onclick={`toggleAccordion(${i})`} class="w-full flex items-center space-x-4 py-5 text-slate-800">
           <span id={`icon-${i}`} class="transition-transform duration-300">
             <!-- Icona iniziale: arrow-right -->
-            <img src="src/icons/arrow-right.svg" alt="Arrow Right" class="w-6 h-6" />
+            <img src="/icons/arrow-right.svg" alt="Arrow Right" class="w-6 h-6" />
           </span>
           <span class="text-left text-lg flex-1">{item.question}</span>
         </button>
@@ -46,8 +46,8 @@ const { faq } = Astro.props as Props;
     const icons = document.querySelectorAll('[id^="icon-"]');
 
     // Definizione delle icone con dimensioni maggiorate
-    const arrowRight = `<img src="src/icons/arrow-right.svg" alt="Arrow Right" class="w-6 h-6"/>`;
-    const arrowDown = `<img src="src/icons/arrow-down.svg" alt="Arrow Down" class="w-6 h-6"/>`;
+    const arrowRight = `<img src="/icons/arrow-right.svg" alt="Arrow Right" class="w-6 h-6"/>`;
+    const arrowDown = `<img src="/icons/arrow-down.svg" alt="Arrow Down" class="w-6 h-6"/>`;
 
     // Chiude tutte le risposte e imposta tutte le icone su arrow-right
     contents.forEach(content => {

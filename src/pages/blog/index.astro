@@ -34,7 +34,7 @@ const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage
         const { title, description, slug, cover } = post.data;
         const imageUrl = STRAPI_BASE_URL + (
           cover === null
-            ? '/uploads/Brix_IA_La_community_di_Brescia_per_l_Intelligenza_Artificiale_1_0809ebc529.png'
+            ? '/uploads/Visual_Birxia_64749c8600.jpg'
             : cover.url
         );
         return (
@@ -52,7 +52,7 @@ const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage
             <p class="text-secondary mb-4 flex-grow">{description}</p>
             {/* Aggiungendo mt-auto il bottone verrà spinto in fondo */}
             <ButtonLink 
-              href={`/strapi-blog/${slug}`} 
+              href={`/blog/${slug}`} 
               class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px]"
             >
               Continua a leggere →

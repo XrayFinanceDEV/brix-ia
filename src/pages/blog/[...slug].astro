@@ -27,10 +27,15 @@ const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.
 
 if (!post) return Astro.rewrite("/404");
 const { title, cover, blocks } = post.data;
+const imageUrl = STRAPI_BASE_URL + (
+          cover === null
+            ? '/uploads/Visual_Birxia_64749c8600.jpg'
+            : cover.url
+        );
 ---
 
-<BlogLayout title={title} link="/strapi-blog">
-  <Image src={STRAPI_BASE_URL + cover.url} alt={title} width={300} height={200} class="w-full h-auto mb-4 rounded-md"/>
+<BlogLayout title={title} link="/blog">
+  <Image src={imageUrl} alt={'Immagine Hero del post'} width={300} height={200} class="w-full h-auto mb-4 rounded-md"/>
   <h1>{title}</h1>
   <BlockRenderer blocks={blocks} />
 </BlogLayout>
