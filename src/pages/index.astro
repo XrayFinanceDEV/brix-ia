@@ -1,32 +1,81 @@
 ---
-import MainLayout from "@layouts/MainLayout.astro"
-import ButtonLink from "@components/ButtonLink.astro"
+import MainLayout from "@layouts/MainLayout.astro";
+import ButtonLink from "@components/ButtonLink.astro";
 import "../themes/dark.css";
-import Hero from '@components/blocks/Hero.astro';
+import Hero from "@components/blocks/Hero.astro";
+import FeaturesCard from "@components/blocks/FeaturesCard.astro";
+import BigCard from "@/components/blocks/BigCard.astro";
+import FAQ from "@components/blocks/FAQ.astro"; // Importa il componente FAQ
+import { getEntry } from "astro:content";
 
-import { getEntry } from 'astro:content';
+// Definisci l'interfaccia per i dati delle FeaturesCard
+interface FeaturesCardData {
+  title: string;
+  subtitle?: string;
+  link: string;
+  image: string;
+  badgeText: string;
+  badgeColor?: string;
+  iconLink?: string;
+  footerText?: string;
+}
 
-const { data } = await getEntry('pagedata', 'landing');
+const { data } = await getEntry("pagedata", "landing");
+
+// Estrai i dati dalla struttura del JSON
 const { title, content } = data.landingPageData;
-const header = content.hero;
+const featuresCards = content.featuresCards as FeaturesCardData[];
+const bigCardTest = content.bigCard; // Dati per la BigCard
+const bigCardDue = content.bigCard2; // Dati per la BigCard
 
-const features = content.features;
-
+// Estrai anche i dati delle FAQ (content.faq)
+const faqData = content.faq;
 ---
 
 <MainLayout title={title}>
-	<Hero />
-	<section>
-		<div class="py-20">
-			<div class="container mx-auto px-4" style="padding: 0;">
-				<div class="flex flex-wrap -mx-4">
-					{ features.data.map( ({ title, description }: { title: string, description: string }) => {
-						return <div class="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-						<h4 class="mb-4 text-2xl font-bold font-heading">{title}</h4>
-						<p class="text-gray-500 leading-loose">{description}</p>
-					</div>})}
-				</div>
-			</div>
-		</div>
-	</section>
+  <Hero />
+
+  <!-- Sezione Features Cards -->
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-[var(--color-accent)] mb-8">
+        Scopri la community di Brix-IA
+      </h2>
+      <div class="flex flex-wrap justify-center gap-6">
+        {featuresCards.map((feature: FeaturesCardData) => (
+          <FeaturesCard {...feature} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione BigCard -->
+  <BigCard
+    title={bigCardTest.title}
+    subtitle={bigCardTest.subtitle}
+    description={bigCardTest.description}
+    cta={bigCardTest.cta}
+    image={bigCardTest.image}
+    imagePosition={bigCardTest.imagePosition}
+  />
+
+  <div class="h-[50px]"></div>
+
+  <BigCard
+    title={bigCardDue.title}
+    subtitle={bigCardDue.subtitle}
+    description={bigCardDue.description}
+    cta={bigCardDue.cta}
+    image={bigCardDue.image}
+    imagePosition={bigCardDue.imagePosition}
+  />
+
+  <div class="h-[50px]">
+    <h2 class="text-3xl font-bold text-center text-[var(--color-accent)] mb-10 mt-10">
+      FAQ – Brix-IA: La community di Brescia per l’Intelligenza Artificiale
+    </h2>
+  </div>
+
+  <!-- Sezione FAQ: passa i dati delle FAQ come prop -->
+  <FAQ faq={faqData} />
 </MainLayout>

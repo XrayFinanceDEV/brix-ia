@@ -12,32 +12,86 @@
           "class": "bg-red-500 hover:bg-red-600"
         },
         "image": {
-          "src": "https://images.unsplash.com/photo-1462826303086-329426d1aef5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80",
+          "src": "",
           "alt": ""
         }
       },
-      "features": {
-        "title": "Features",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur nisl sodales egestas lobortis.",
-        "data": [
-          {
-            "title": "Feature 1",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          },
-          {
-            "title": "Feature 2",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          },
-          {
-            "title": "Feature 3",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          },
-          {
-            "title": "Feature 4",
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          }
-        ]
+      "featuresCards": [
+        {
+          "title": "Networking a tema AI",
+          "subtitle": "Partecipa agli eventi di Brix-IA e sviluppa il tuo network professionale. Conosci esperti del settore, e scopri nuove opportunità. Unisciti alla community per rimanere sempre aggiornato sulle novità AI.",
+          "link": "#",
+          "image": "https://api.brix-ia.com/uploads/networking_with_ai_1e23486c4b.png",
+          "badgeText": "Eventi e Workshop",
+          "badgeColor": "#80FDBE"
+        },
+        {
+          "title": "Condivisione Skill AI",
+          "subtitle": "Diventa un esperto di intelligenza artificiale e sviluppo software basato sulla AI e machine learning. Partecipa ai nostri workshop dove puoi toccare con mano i più innovativi strumenti AI",
+          "link": "#",
+          "image": "https://api.brix-ia.com/uploads/ai_skill_sharing_v2_5486f9dd3d.png",
+          "badgeText": "Knowledge",
+          "badgeColor": "#80FDBE"
+        },
+        {
+          "title": "Progetti Concreti",
+          "subtitle": "Sviluppiamo soluzioni personalizzate per le imprese, utilizzando tecnologie AI avanzate. Dai vita alle tue idee con strumenti innovativi e low-code. Ottieni risultati concreti per la tua Azienda",
+          "link": "#",
+          "image": "https://api.brix-ia.com/uploads/business_ai_projects_18971ff619.png",
+          "badgeText": "Progetti AI",
+          "badgeColor": "#80FDBE"
+        }
+      ],
+      "bigCard": {
+        "title": "Non sai da dove partire nel mondo dell'IA?",
+        "subtitle": "Unisciti a Brix-IA",
+        "description": "Scopri un ecosistema dedicato all’intelligenza artificiale. Partecipa a workshop, connettiti con esperti del settore e accedi a risorse esclusive per sviluppare le tue competenze. Che tu sia un principiante o un professionista, troverai il supporto giusto per crescere e innovare. 🚀",
+        "cta": {
+          "text": "Unisciti a Brix-IA",
+          "link": "https://t.me/+E54HAdd4b1kyNWU0"
+        },
+        "image": {
+          "src": "https://api.brix-ia.com/uploads/fifia_con_occhiali_hacker_min_eab3880e50.png",
+          "alt": "Immagine Blocco"
+        },
+        "imagePosition": "right"
+      },
+      "bigCard2": {
+        "title": "Unisciti a Brix-IA",
+        "subtitle": "Brix-IA: La community di Brescia per l’Intelligenza Artificiale",
+        "description": "Unisciti a Brix-IA, il punto di riferimento per l’AI a Brescia. Un luogo di condivisione e sperimentazione dove professionisti, studenti e imprenditori collaborano per sviluppare soluzioni innovative. L’Intelligenza Artificiale non è solo il futuro, ma un’opportunità concreta per trasformare settori come manifattura, finanza, sanità e creatività digitale. 🦾",
+        "cta": {
+          "text": "Unisciti a Brix-IA",
+          "link": "https://t.me/+E54HAdd4b1kyNWU0"
+        },
+        "image": {
+          "src": "https://api.brix-ia.com/uploads/microcircuit_traces_golden_min_098eb289b3.png",
+          "alt": "Immagine Blocco"
+        },
+        "imagePosition": "left"
+      },
+      "faq": [
+      {
+        "question": "Cos’è Brix-IA e qual è il suo obiettivo?",
+        "answer": "Brix-IA è la prima community di Brescia dedicata all’Intelligenza Artificiale. Il suo obiettivo è creare uno spazio di condivisione e sperimentazione in cui professionisti, studenti, imprenditori e appassionati possano incontrarsi, collaborare e sviluppare progetti concreti legati all’AI."
+      },
+      {
+        "question": "Chi può entrare a far parte della community?",
+        "answer": "Brix-IA è aperta a tutti, indipendentemente dal livello di esperienza. Non importa se sei un esperto di AI, uno studente, un imprenditore o semplicemente un curioso: se hai voglia di imparare e condividere, troverai un ambiente inclusivo e stimolante."
+      },
+      {
+        "question": "Quali attività organizza Brix-IA?",
+        "answer": "La community organizza workshop pratici, hackathon, meetup tematici e progetti collaborativi per applicare l’AI in ambiti concreti. Inoltre, Brix-IA collabora con aziende e istituzioni per favorire l’innovazione e la crescita professionale dei suoi membri."
+      },
+      {
+        "question": "Come posso partecipare agli eventi di Brix-IA?",
+        "answer": "Puoi partecipare agli eventi di Brix-IA iscrivendoti al gruppo Telegram ufficiale, seguendo la community sui social o visitando il sito web per rimanere aggiornato sul calendario delle attività. La maggior parte degli eventi è gratuita e aperta a tutti."
+      },
+      {
+        "question": "Quali vantaggi offre far parte di Brix-IA?",
+        "answer": "Entrare in Brix-IA ti permette di accedere a formazione gratuita, networking con esperti del settore, collaborazioni con aziende innovative e opportunità di crescita professionale. Inoltre, potrai proporre idee, sviluppare progetti reali e contribuire attivamente all’ecosistema AI di Brescia."
       }
+    ]
     }
   }
 }

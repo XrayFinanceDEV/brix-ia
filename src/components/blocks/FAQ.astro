@@ -1,0 +1,70 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  faq: FAQItem[];
+}
+
+const { faq } = Astro.props as Props;
+---
+
+<!-- Card container con le classi Tailwind fornite -->
+<div class="flex flex-col md:flex-row items-center p-8 mx-8 md:mx-20 lg:mx-32 rounded-3xl border border-[var(--color-text-secondary)] shadow-lg bg-[var(--color-dark)] text-gray-300">
+  <div class="w-full">
+    {faq.map((item, i) => (
+      <div>
+        <!-- Domanda -->
+        <button onclick={`toggleAccordion(${i})`} class="w-full flex items-center space-x-4 py-5 text-slate-800">
+          <span id={`icon-${i}`} class="transition-transform duration-300">
+            <!-- Icona iniziale: arrow-right -->
+            <img src="src/icons/arrow-right.svg" alt="Arrow Right" class="w-6 h-6" />
+          </span>
+          <span class="text-left text-lg flex-1">{item.question}</span>
+        </button>
+        <!-- Risposta -->
+        <div id={`content-${i}`} class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+          <div class="pb-5 pr-10 pl-10 text-lg text-slate-300">
+            {item.answer}
+          </div>
+        </div>
+        <!-- Riga sottile sotto la risposta -->
+        <hr class="border-[0.5px] border-slate-200" />
+      </div>
+    ))}
+  </div>
+</div>
+
+
+<!-- Script inline per gestire l'apertura/chiusura dell'accordion -->
+<script is:inline>
+  function toggleAccordion(index) {
+    // Seleziona tutti i contenuti e icone
+    const contents = document.querySelectorAll('[id^="content-"]');
+    const icons = document.querySelectorAll('[id^="icon-"]');
+
+    // Definizione delle icone con dimensioni maggiorate
+    const arrowRight = `<img src="src/icons/arrow-right.svg" alt="Arrow Right" class="w-6 h-6"/>`;
+    const arrowDown = `<img src="src/icons/arrow-down.svg" alt="Arrow Down" class="w-6 h-6"/>`;
+
+    // Chiude tutte le risposte e imposta tutte le icone su arrow-right
+    contents.forEach(content => {
+      content.style.maxHeight = '0';
+    });
+    icons.forEach(icon => {
+      icon.innerHTML = arrowRight;
+    });
+
+    // Seleziona il contenuto e l'icona dell'elemento cliccato
+    const currentContent = document.getElementById(`content-${index}`);
+    const currentIcon = document.getElementById(`icon-${index}`);
+
+    // Se l'elemento cliccato è chiuso, lo apriamo e impostiamo l'icona a arrow-down
+    if (!currentContent.style.maxHeight || currentContent.style.maxHeight === '0px') {
+      currentContent.style.maxHeight = currentContent.scrollHeight + 'px';
+      currentIcon.innerHTML = arrowDown;
+    }
+  }
+</script>

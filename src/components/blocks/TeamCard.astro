@@ -1,0 +1,36 @@
+---
+// src/components/TeamCard.astro
+interface Props {
+  /** URL dell'immagine del membro */
+  image: string;
+  /** Nome del membro */
+  name: string;
+  /** Ruolo o qualifica del membro */
+  role: string;
+}
+
+const { image, name, role } = Astro.props;
+---
+
+<div class="bg-[var(--color-dark)] rounded-3xl border border-[var(--color-text-secondary)] shadow-lg overflow-hidden">
+  <!-- Immagine in alto: centrata in un cerchio -->
+  <div class="pt-4 flex justify-center">
+    <div class="w-24 h-24 rounded-full overflow-hidden">
+      <img src={image} alt={name} class="object-cover w-full h-full" />
+    </div>
+  </div>
+  <!-- Sezione nome e badge -->
+  <div class="p-4 text-center">
+    <h2 class="text-xl font-bold text-gray-300">{name}</h2>
+    <span class="mt-2 inline-block bg-[var(--color-accent-dark)] text-[var(--color-primary)] text-xs font-semibold px-3 py-1 rounded-full">
+      {role}
+    </span>
+  </div>
+  <!-- Link al profilo con testo e icona -->
+  <div class="px-4 pb-4 flex justify-end">
+    <a href="#" class="flex items-center gap-2 text-gray-300 hover:text-white">
+      <span>Vedi il Profilo</span>
+      <img src="/src/icons/arrow-square-up.svg" alt="Vai al profilo" class="w-6 h-6" />
+    </a>
+  </div>
+</div>

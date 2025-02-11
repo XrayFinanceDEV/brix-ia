@@ -1,0 +1,81 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import TeamCard from "src/components/blocks/TeamCard.astro";
+
+// Definiamo due array con i dati dei membri del team.
+// Puoi ovviamente sostituire le immagini, i nomi e i ruoli con i dati reali.
+const teamMembersTop = [
+  {
+    image: "https://api.brix-ia.com/uploads/avatar08_958cec250e.png",
+    name: "Giuseppe Grigio",
+    role: "Senior AI Engineer"
+  },
+  {
+    image: "https://api.brix-ia.com/uploads/avatar02_61d72a351c.png",
+    name: "Alessandra Rossi",
+    role: "AI Researcher"
+  },
+  {
+    image: "https://api.brix-ia.com/uploads/avatar01_f14c9d646c.png",
+    name: "Luca Bianchi",
+    role: "Data Scientist"
+  },
+  {
+    image: "https://api.brix-ia.com/uploads/avatar03_5efea293d7.png",
+    name: "Marco Verdi",
+    role: "Machine Learning Engineer"
+  }
+];
+
+const teamMembersBottom = [
+{
+    image: "https://api.brix-ia.com/uploads/avatar06_0b416ce092.png",
+    name: "Paolo Corbelli",
+    role: "Machine Learning Engineer"
+  },
+  {
+    image: "https://api.brix-ia.com/uploads/avatar07_570ee91563.png",
+    name: "Alessandro Battisti",
+    role: "Machine Learning Engineer"
+  },
+  {
+    image: "https://api.brix-ia.com/uploads/avatar04_f6370c5dd9.png",
+    name: "Maurizio Pedrini",
+    role: "Machine Learning Engineer"
+  },
+  {
+    image: "https://api.brix-ia.com/uploads/avatar05_28efc59cea.png",
+    name: "Laura Bianchi",
+    role: "Machine Learning Engineer"
+  }
+];
+---
+
+<MainLayout title="Team">
+  <section class="container mx-auto px-4 py-8">
+    <!-- Titolo della pagina con margine superiore per evitare l'intersezione con la navbar -->
+    <h1 class="text-4xl font-bold mb-8 mt-[100px]">Il Team di Brix-IA</h1>
+    
+    <!-- Prima riga: 4 TeamCard -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+      {teamMembersTop.map(member => (
+        <TeamCard 
+          image={member.image} 
+          name={member.name} 
+          role={member.role} 
+        />
+      ))}
+    </div>
+    
+    <!-- Seconda riga: 4 TeamCard -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+      {teamMembersBottom.map(member => (
+        <TeamCard 
+          image={member.image} 
+          name={member.name} 
+          role={member.role} 
+        />
+      ))}
+    </div>
+  </section>
+</MainLayout>

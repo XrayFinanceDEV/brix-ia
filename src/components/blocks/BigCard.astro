@@ -1,0 +1,92 @@
+---
+// import { useEffect } from 'astro/client'; // Import necessario per il client-side
+import classNames from 'classnames';
+
+interface ImageData {
+  src: string;
+  alt?: string;
+}
+
+interface CTAData {
+  text: string;
+  link: string;
+}
+
+interface BigCardProps {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  cta: CTAData;
+  image: ImageData;
+  imagePosition?: 'left' | 'right';
+}
+
+const {
+  title,
+  subtitle = '',
+  description = '',
+  cta,
+  image,
+  imagePosition = 'right',
+} = Astro.props as BigCardProps;
+
+const containerClasses = classNames(
+  'bigcard-container', // Classe principale per l'animazione
+  'flex flex-col md:flex-row items-center p-8 mx-8 md:mx-20 lg:mx-32 rounded-3xl',
+  'border border-[var(--color-text-secondary)] shadow-lg bg-[var(--color-dark)] text-gray-300',
+  'opacity-0 translate-y-10 transition-all duration-700 ease-out', // Stato iniziale nascosto
+  {
+    'md:flex-row-reverse': imagePosition === 'left',
+  }
+);
+---
+
+<div class={containerClasses}>
+  <div class="flex-1 md:w-1/2 md:pr-6 mb-6 md:mb-0">
+    <h2 class="text-2xl md:text-3xl font-bold mb-2 text-[var(--color-accent)]">
+      {title}
+    </h2>
+    {subtitle && <h3 class="text-xl text-gray-400 font-semibold mb-4">{subtitle}</h3>}
+    {description && <p class="mb-6 text-gray-400 leading-relaxed">{description}</p>}
+    
+    <a
+      class="inline-block py-2 px-6 bg-accent hover:bg-green-600 text-dark font-bold rounded-l-xl rounded-t-xl transition duration-200"
+      href={cta.link}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {cta.text}
+    </a>
+  </div>
+
+  <div class="flex-1 md:w-1/2 flex justify-center">
+    <img src={image.src} alt={image.alt ?? title} class="w-full h-auto max-h-64 md:max-h-80 object-contain rounded-2xl" />
+  </div>
+</div>
+
+<!-- Script per gestire il parallax con Intersection Observer -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target); // Una volta visibile, non la osserviamo più
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  document.querySelectorAll(".bigcard-container").forEach((el) => observer.observe(el));
+});
+</script>
+
+<style>
+/* Quando l'elemento entra nella viewport */
+.bigcard-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>

@@ -5,7 +5,7 @@ const { title, link } = Astro.props;
 
 <MainLayout title={title}>
   <div class="container mx-auto px-4 w-3/4">
-    <a href={link} class="text-blue-600 hover:text-blue-800 mb-4 inline-block">&larr; Back to blog</a>
+    <a href={link} class="text-[var(--color-accent-dark)] hover:text-green-600 mb-4 inline-block mt-[100px]">&larr; Torna al blog</a>
     <article class="prose prose-lg max-w-none">
       <slot />
     </article>
@@ -41,6 +41,18 @@ const { title, link } = Astro.props;
   .prose pre {
     @apply bg-gray-100 p-4 rounded overflow-x-auto;
   }
+
+  /* Stili per le tabelle */
+  .prose table {
+    @apply w-full text-left border-collapse mb-4;
+  }
+  .prose th {
+  @apply bg-gray-200 font-semibold text-gray-900;
+  }
+  .prose td {
+    @apply border border-gray-300 px-4 py-2;
+  }
+  .prose th {
+    @apply bg-gray-200 font-semibold;
+  }
 </style>
-
-

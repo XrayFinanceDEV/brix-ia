@@ -33,6 +33,12 @@
     --color-text-secondary: #B0B0B0;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Blocca lo scroll orizzontale */
+  }
+  
 
 /**
  * GLOBAL STYLES

@@ -1,0 +1,51 @@
+---
+interface FeaturesCardProps {
+  title: string;
+  subtitle?: string;
+  link: string;
+  image: string;
+  badgeText: string;
+  badgeColor?: string;
+  iconLink?: string;
+  footerText?: string;
+}
+
+const {
+  title,
+  subtitle = '',
+  link,
+  image,
+  badgeText,
+  badgeColor = "#00AA94", // Colore di default per il badge
+  iconLink = "src/icons/arrow-right.svg",
+  footerText = ""
+} = Astro.props;
+---
+
+<a href={link} class="features-card block rounded-2xl overflow-hidden shadow-lg transition-transform transform hover:scale-105">
+  <!-- Sezione immagine con badge -->
+  <div class="relative h-40 bg-cover bg-center" style={`background-image: url('${image}')`}>
+    <span class="absolute top-2 left-2 px-3 py-1 text-sm font-semibold text-gray-900 rounded-lg" style={`background-color: ${badgeColor}`}>
+      {badgeText}
+    </span>
+  </div>
+
+  <!-- Blocco di contenuto (testo + icona) -->
+  <div class="p-4 bg-[var(--color-dark)] text-white">
+    <h3 class="text-xl font-bold mb-1">{title}</h3>
+    {subtitle && <p class="text-sm text-gray-400 mb-2">{subtitle}</p>}
+    
+    <!-- Icona integrata all'interno del blocco di testo -->
+    <div class="flex justify-end">
+      <p class="text-lg font-semibold mb-2 bottom-2 pr-4" style={`color: ${badgeColor}`}>{footerText}</p>
+      <img src={iconLink} alt="Vai al link" class="w-10 h-10 bottom-2 transition-opacity hover:opacity-80">
+    </div>
+  </div>
+</a>
+
+<style>
+  .features-card {
+    width: 100%;
+    max-width: 300px;
+  }
+</style>

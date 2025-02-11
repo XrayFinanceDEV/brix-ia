@@ -1,94 +1,25 @@
 ---
+import ButtonLink from "@components/ButtonLink.astro";
 ---
-<html lang="it">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrixIA</title>
-    <link rel="stylesheet" href="/themes/dark.css">
-    <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        color: white;
-      }
-      .container {
-        background-image: url(https://api.brix-ia.com/uploads/Visual_Birxia_64749c8600.jpg);
-        background-size: cover;
-        background-position: center;
-        padding: 0;
-        margin: 0;
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 2rem;
-      }
-      .nav a {
-        margin-left: 1rem;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-      .nav a:hover {
-        color: #38b2ac;
-      }
-      .main {
-        text-align: center;
-        padding: 4rem 2rem;
-        background-image: url('/path/to/hero-background.jpg');
-        background-size: cover;
-        background-position: center;
-      }
-      .main h1 {
-        font-size: 2.5rem;
-        line-height: 1.2;
-      }
-      .main p {
-        margin-top: 1rem;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .buttons {
-        margin-top: 2rem;
-      }
-      .buttons button {
-        background-color: var(--color-primary);
-        margin: 0 0.5rem;
-        font-size: 1rem;
-        border-radius: 0.2rem;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        color: var(--color-white);
-      }
-      .buttons button {
-        color: #1a202c;
-      }
-      .buttons button {
-        background-color: var(--color-accent);
-      }      .buttons button:hover {
-        background-color: var(--color-accent-hover);
-      }
-    </style>
-  </head>
-  <body>
-      <div class="container">   
-            <main class="main">
-                <h1>
-                    Inizia oggi la tua nuova carriera
-                    <br />
-                    <span>nel mondo dei dati e dell'AI</span>
-                </h1>
-                <p>
-                Impara oggi le competenze necessarie per garantirti un futuro all’altezza dei tuoi desideri.
-            </p>
-            <div class="buttons">
-                <button class="bg-accent pt-2 pl-4 pb-2 pr-4">Iscriviti</button>
-                <button class="bg-accent pt-2 pl-4 pb-2 pr-4">Inizia il test</button>
-                </div>
-            </main>
+
+<div class="w-screen h-screen overflow-hidden bg-cover bg-center flex items-center justify-center text-center"
+     style="background-image: url(https://api.brix-ia.com/uploads/Visual_Birxia_64749c8600.jpg);">
+  <main class="max-w-2xl px-6">
+    <h1 class="text-4xl md:text-5xl font-bold text-white">
+      Inizia oggi il tuo percorso
+      <br />
+      <span class="text-green-200">nel mondo dell'Intelligenza Artificiale</span>
+    </h1>
+    <p class="mt-4 text-lg text-gray-200">
+      Impara oggi le competenze necessarie per garantirti un futuro all’altezza dei tuoi desideri.
+    </p>
+    <div class="mt-6 flex justify-center gap-4">
+      <ButtonLink href="https://t.me/+E54HAdd4b1kyNWU0" class="bg-accent hover:bg-green-600 text-dark">
+        Iscriviti a Brix-IA
+      </ButtonLink>
+      <ButtonLink href="/blog" class="bg-accent hover:bg-green-600 text-dark">
+        Scopri di più
+      </ButtonLink>
     </div>
-  </body>
-</html>
+  </main>
+</div>
