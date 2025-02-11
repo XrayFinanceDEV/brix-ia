@@ -21,7 +21,7 @@ const { file } = Astro.props;
 const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com";
 ---
 
-<div class="relative w-full h-64 overflow-hidden my-6 rounded-lg shadow-lg">
+<div class="relative w-full h-9/10 overflow-hidden my-6 rounded-lg shadow-lg">
   <Image
     src={STRAPI_BASE_URL + file.url}
     alt={file.alternativeText}
