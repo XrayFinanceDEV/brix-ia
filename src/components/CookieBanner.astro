@@ -1,6 +1,7 @@
 ---
 // Nessun frontmatter necessario
 ---
+
 <div
   id="cookie-banner"
   class="fixed bottom-0 left-0 right-0 bg-gray-900/80 text-white text-xs p-8 z-50"
@@ -8,13 +9,13 @@
   <div class="max-w-4xl mx-auto relative">
     <!-- Pulsante di chiusura: X in un rettangolo con bordo grigio chiaro e sfondo trasparente -->
     <div class="flex justify-end">
-        <button
+      <button
         id="cookie-close"
         class="flex items-center justify-center w-6 h-6 border border-gray-300 bg-transparent hover:bg-gray-600 hover:text-white text-gray-300 text-xl rounded"
         aria-label="Chiudi"
-        >
+      >
         &times;
-        </button>
+      </button>
     </div>
     <p>
       Noi e terze parti selezionate utilizziamo cookie o tecnologie simili per
@@ -44,19 +45,5 @@
   </div>
 </div>
 
-<script type="module">
-  import { checkConsent, setCookieConsent } from '/src/utils/cookieConsent';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    checkConsent();
-    const acceptButton = document.getElementById('cookie-accept');
-    const closeButton = document.getElementById('cookie-close');
-
-    if (acceptButton) {
-      acceptButton.addEventListener('click', () => setCookieConsent(true));
-    }
-    if (closeButton) {
-      closeButton.addEventListener('click', () => setCookieConsent(false));
-    }
-  });
-</script>
+<!-- Carica lo script dalla cartella public senza bundling -->
+<script is:inline src="/js/cookieBanner.js"></script>
