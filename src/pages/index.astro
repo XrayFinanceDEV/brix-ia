@@ -5,10 +5,9 @@ import "../themes/dark.css";
 import Hero from "@components/blocks/Hero.astro";
 import FeaturesCard from "@components/blocks/FeaturesCard.astro";
 import BigCard from "@/components/blocks/BigCard.astro";
-import FAQ from "@components/blocks/FAQ.astro"; // Importa il componente FAQ
+import FAQ from "@components/blocks/FAQ.astro";
 import { getEntry } from "astro:content";
 
-// Definisci l'interfaccia per i dati delle FeaturesCard
 interface FeaturesCardData {
   title: string;
   subtitle?: string;
@@ -21,23 +20,25 @@ interface FeaturesCardData {
 }
 
 const { data } = await getEntry("pagedata", "landing");
-
-// Estrai i dati dalla struttura del JSON
 const { title, content } = data.landingPageData;
 const featuresCards = content.featuresCards as FeaturesCardData[];
-const bigCardTest = content.bigCard; // Dati per la BigCard
-const bigCardDue = content.bigCard2; // Dati per la BigCard
+const bigCardTest = content.bigCard;
+const bigCardDue = content.bigCard2;
 const faqData = content.faq;
 ---
 
-<MainLayout title={title}>
+<MainLayout 
+  title={title} 
+  description="Brix-IA: il portale della community di Brescia sull'Intelligenza Artificiale - Notizie, Guide, prompt, Case Study e Formazione AI"
+  canonical="https://brix-ia.com"
+  ogImage="https://api.brix-ia.com/uploads/Brix_IA_Home_Page_d06dbc5925.jpg"
+>
   <Hero />
-
   <!-- Sezione Features Cards -->
   <section class="py-16">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold text-center text-[var(--color-accent)] m-8">
-        Scopri la community di Brix-IA
+        Scopri la Community di Brix-IA
       </h2>
       <div class="flex flex-wrap justify-center gap-6">
         {featuresCards.map((feature: FeaturesCardData) => (
@@ -74,6 +75,6 @@ const faqData = content.faq;
     </h2>
   </div>
 
-  <!-- Sezione FAQ: passa i dati delle FAQ come prop -->
+  <!-- Sezione FAQ -->
   <FAQ faq={faqData} />
 </MainLayout>

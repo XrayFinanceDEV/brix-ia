@@ -1,18 +1,49 @@
 ---
+import { SEO } from "astro-seo";
 import TopNav from "@components/TopNav.astro";
 import Footer from "@components/Footer.astro";
 import CookieBanner from "@components/CookieBanner.astro";
-const { title } = Astro.props;
 import "../themes/dark.css";
+
+// Ricevi le props dal layout (puoi impostare valori di default se vuoi)
+const {
+  title = "Titolo di default",
+  description = "Descrizione di default",
+  canonical = "https://brix-ia.com",
+  ogImage = "https://brix-ia.com/Brix_IA_Home_Page_d06dbc5925.jpg"
+} = Astro.props;
+
+// Definisci le proprietà per SEO
+const seoProps = {
+  title,
+  description,
+  canonical,
+  openGraph: {
+    basic: {
+      title,
+      type: "website",
+      image: ogImage,
+      url: canonical,
+    },
+    optional: {
+      locale: "it_IT",
+    },
+  },
+  extend: {
+    meta: [
+      { name: "robots", content: "index, follow" }
+    ],
+  },
+};
 ---
 
-<html lang="en">
+<html lang="it">
   <head>
+    <SEO {...seoProps} />
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
   </head>
   <body>
     <TopNav />

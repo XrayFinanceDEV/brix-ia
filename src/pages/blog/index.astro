@@ -24,10 +24,15 @@ const totalPages = Math.ceil(allPosts.length / postsPerPage);
 const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
 ---
 
-<MainLayout title="Strapi Blog">
+<MainLayout 
+  title="News, Guide, Prompt e Case Study preparati dalla Community Brix-IA"
+  description="Notizie, Guide, prompt, Case Study e Formazione AI tutto preparato dalla Community Brix-IA"
+  canonical="https://brix-ia.com/blog"
+  ogImage="https://api.brix-ia.com/uploads/Brix_IA_news_c12469fb3b.jpg"
+>
   <section class="container mx-auto px-4 py-8">
     <!-- Titolo distanziato di 100px dall'alto per non intersecare la navbar -->
-    <h1 class="text-4xl font-bold mb-6 mt-[100px]">Guide e News</h1>
+    <h1 class="text-4xl font-bold mb-6 mt-[100px]">Guide e News della Community Brix-IA</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {strapiPosts.map((post) => {

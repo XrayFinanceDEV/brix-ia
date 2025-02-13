@@ -1,16 +1,27 @@
 ---
-import MainLayout from "@layouts/MainLayout.astro"
-const { title, link } = Astro.props;
+import MainLayout from "@layouts/MainLayout.astro";
+const { title, description, link, ogImage } = Astro.props;
 ---
 
-<MainLayout title={title}>
+<MainLayout 
+  title={title} 
+  description={description} 
+  canonical={`https://brix-ia.com${Astro.url.pathname}`}
+  ogImage={ogImage}
+>
   <div class="container mx-auto px-4 w-9/10 md:w-3/4">
-    <a href={link} class="text-[var(--color-accent-dark)] hover:text-green-600 mb-4 inline-block mt-24 md:mt-[100px]">&larr; Torna al blog</a>
+    <a 
+      href={link} 
+      class="text-[var(--color-accent-dark)] hover:text-green-600 mb-4 inline-block mt-24 md:mt-[100px]"
+    >
+      &larr; Torna al blog
+    </a>
     <article class="prose prose-lg max-w-none">
       <slot />
     </article>
   </div>
 </MainLayout>
+
 
 <style is:global>
   /* Additional custom styles for markdown content */
