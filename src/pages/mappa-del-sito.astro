@@ -1,0 +1,51 @@
+---
+import { XMLParser } from 'fast-xml-parser';
+import MainLayout from "@layouts/MainLayout.astro";
+
+const SITEMAP_URL = 'https://api.brix-ia.com/api/strapi-5-sitemap-plugin/sitemap.xml';
+
+async function getSitemapUrls(): Promise<string[]> {
+  try {
+    const res = await fetch(SITEMAP_URL);
+    if (!res.ok) throw new Error('Errore nel recupero della sitemap');
+
+    const xmlText = await res.text();
+    const parser = new XMLParser();
+    const xmlObj = parser.parse(xmlText);
+
+    // Controlliamo che il formato sia corretto
+    if (!xmlObj.urlset || !xmlObj.urlset.url) throw new Error('Formato XML non valido');
+
+    // Se la sitemap contiene un solo URL, lo normalizziamo in un array
+    const urls: string[] = Array.isArray(xmlObj.urlset.url)
+      ? xmlObj.urlset.url.map((entry: any) => entry.loc)
+      : [xmlObj.urlset.url.loc];
+
+    return urls.filter((url: any): url is string => typeof url === 'string');
+  } catch (error) {
+    console.error('Errore nel parsing della sitemap:', error);
+    return [];
+  }
+}
+
+// Recupera gli URL della sitemap
+const urls = await getSitemapUrls();
+---
+
+<MainLayout>
+  <head>
+    <title>Mappa del Sito</title>
+  </head>
+  <body>
+    <h1>Mappa del Sito</h1>
+    <ul>
+      {urls.length > 0 ? (
+        urls.map((url: string) => (
+          <li><a href={url}>{url.replace('https://brix-ia.com', '')}</a></li>
+        ))
+      ) : (
+        <p>Errore nel caricamento della sitemap</p>
+      )}
+    </ul>
+  </body>
+</MainLayout>

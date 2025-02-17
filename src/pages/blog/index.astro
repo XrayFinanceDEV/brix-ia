@@ -10,18 +10,25 @@ const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.
 // Recupera tutti i post
 const allPosts = await getCollection("strapiPostsLoader");
 
+// Ordina i post in ordine decrescente in base alla data
+allPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
 // Configura il numero di post per pagina
 const postsPerPage = 6;
-
-// Recupera il parametro della pagina dalla query string, se presente (default: 1)
-// Se preferisci usare un parametro di route (es. [page].astro) usa Astro.params.page
-const currentPage = Number(Astro.url.searchParams.get('page')) || 1;
 
 // Calcola il numero totale di pagine
 const totalPages = Math.ceil(allPosts.length / postsPerPage);
 
+// Recupera il parametro della pagina dalla route dinamica
+const { currentPage } = Astro.params as { currentPage?: string };
+const pageNumber = currentPage ? parseInt(currentPage, 10) : 1;
+
 // Seleziona i post da mostrare in base alla pagina corrente
-const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+const strapiPosts = allPosts.slice(
+  (pageNumber - 1) * postsPerPage,
+  pageNumber * postsPerPage
+);
+
 ---
 
 <MainLayout 
@@ -36,7 +43,7 @@ const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {strapiPosts.map((post) => {
-        const { title, description, slug, cover } = post.data;
+        const { title, description, slug, cover, date } = post.data;
         const imageUrl = STRAPI_BASE_URL + (
           cover === null
             ? '/uploads/Visual_Birxia_64749c8600.jpg'
@@ -53,16 +60,24 @@ const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage
           />
           {/* Uso flex-col e flex-1 per far espandere quest'area */}
           <div class="p-6 flex flex-col flex-1">
-            <h2 class="text-2xl font-bold mb-2 text-white">{title}</h2>
-            <p class="text-secondary mb-4 flex-grow">{description}</p>
-            {/* Aggiungendo mt-auto il bottone verrà spinto in fondo */}
-            <ButtonLink 
-              href={`/blog/${slug}`} 
-              class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px]"
-            >
-              Continua a leggere →
-            </ButtonLink>
-          </div>
+          <!-- Data formattata in formato europeo, colore impostato tramite variabile CSS -->
+          <p class="mb-2 text-xs" style="color: var(--color-accent);">
+            {new Date(date).toLocaleDateString('it-IT')}
+          </p>
+          
+          <!-- Titolo del post -->
+          <h2 class="text-2xl font-bold mb-2 text-white">{title}</h2>
+          
+          <!-- Descrizione del post -->
+          <p class="text-secondary mb-4 flex-grow">{description}</p>
+          
+          <!-- Pulsante per continuare a leggere -->
+          <ButtonLink 
+            href={`/blog/${slug}`} 
+            class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px]">
+            Continua a leggere →
+          </ButtonLink>
+        </div>
         </div>
         )
       })}
@@ -71,7 +86,7 @@ const strapiPosts = allPosts.slice((currentPage - 1) * postsPerPage, currentPage
     {/* Se ci sono più di una pagina, mostra il componente di paginazione */}
     {totalPages > 1 && (
       <div class="mt-8">
-        <Pagination currentPage={currentPage} totalPages={totalPages} baseUrl="/strapi-blog" />
+        <Pagination currentPage={pageNumber} totalPages={totalPages} baseUrl="/blog" />
       </div>
     )}
   </section>
