@@ -1,93 +1,159 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
 import ButtonLink from "src/components/ButtonLink.astro";
-import Pagination from "src/components/Pagination.astro";
 import { getCollection } from "astro:content";
-import { Image } from 'astro:assets';
+export const prerender = false;
 
 const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com";
+const initialPage = parseInt(Astro.url.searchParams.get("page") || "1");
 
-// Recupera tutti i post
-const allPosts = await getCollection("strapiPostsLoader");
+// Загружаем первую порцию постов
+const pageSize = 6;
 
-// Ordina i post in ordine decrescente in base alla data
-allPosts.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+const fetchArticles = async (page) => {
+  const response = await fetch(
+    `${STRAPI_BASE_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*`
+  );
+  if (!response.ok) {
+    console.error("Ошибка при запросе:", response.status);
+    return {
+      articles: [],
+      hasMore: false,
+      totalPages: 0,
+    };
+  }
 
-// Configura il numero di post per pagina
-const postsPerPage = 6;
+  const data = await response.json();
 
-// Calcola il numero totale di pagine
-const totalPages = Math.ceil(allPosts.length / postsPerPage);
+  const { data: fetchedArticles, meta } = data;
+  return {
+    articles: fetchedArticles,
+    hasMore: meta.pagination.page < meta.pagination.pageCount,
+    totalPages: meta.pagination.pageCount,
+  };
+};
 
-// Recupera il parametro della pagina dalla route dinamica
-const { currentPage } = Astro.params as { currentPage?: string };
-const pageNumber = currentPage ? parseInt(currentPage, 10) : 1;
 
-// Seleziona i post da mostrare in base alla pagina corrente
-const strapiPosts = allPosts.slice(
-  (pageNumber - 1) * postsPerPage,
-  pageNumber * postsPerPage
-);
-
+  const {
+    articles: initialArticles,
+    hasMore: initialHasMore,
+    totalPages,
+  } = await fetchArticles(initialPage);
 ---
 
-<MainLayout 
-  title="News, Guide, Prompt e Case Study preparati dalla Community Brix-IA"
-  description="Notizie, Guide, prompt, Case Study e Formazione AI tutto preparato dalla Community Brix-IA"
-  canonical="https://brix-ia.com/blog"
-  ogImage="https://api.brix-ia.com/uploads/Brix_IA_news_c12469fb3b.jpg"
->
+<MainLayout title="News della Community Brix-IA">
   <section class="container mx-auto px-4 py-8">
-    <!-- Titolo distanziato di 100px dall'alto per non intersecare la navbar -->
     <h1 class="text-4xl font-bold mb-6 mt-[100px]">Guide e News della Community Brix-IA</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {strapiPosts.map((post) => {
-        const { title, description, slug, cover, date } = post.data;
-        const imageUrl = STRAPI_BASE_URL + (
-          cover === null
-            ? '/uploads/Visual_Birxia_64749c8600.jpg'
-            : cover.url
-        );
-        return (
-        <div class="bg-primary rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
-          <Image
-            src={imageUrl}
-            alt={title}
-            width={444}
-            height={250}
-            class="w-full h-40 object-cover rounded-t-lg"
-          />
-          {/* Uso flex-col e flex-1 per far espandere quest'area */}
-          <div class="p-6 flex flex-col flex-1">
-          <!-- Data formattata in formato europeo, colore impostato tramite variabile CSS -->
-          <p class="mb-2 text-xs" style="color: var(--color-accent);">
-            {new Date(date).toLocaleDateString('it-IT')}
-          </p>
-          
-          <!-- Titolo del post -->
-          <h2 class="text-2xl font-bold mb-2 text-white">{title}</h2>
-          
-          <!-- Descrizione del post -->
-          <p class="text-secondary mb-4 flex-grow">{description}</p>
-          
-          <!-- Pulsante per continuare a leggere -->
-          <ButtonLink 
-            href={`/blog/${slug}`} 
-            class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px]">
-            Continua a leggere →
-          </ButtonLink>
-        </div>
-        </div>
-        )
-      })}
-    </div>
-
-    {/* Se ci sono più di una pagina, mostra il componente di paginazione */}
-    {totalPages > 1 && (
-      <div class="mt-8">
-        <Pagination currentPage={pageNumber} totalPages={totalPages} baseUrl="/blog" />
+    <!-- Контейнер для постов -->
+    <div class="articles-container">    
+      <!-- Контейнер для статей -->
+      <div id="post-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          initialArticles.map((article) => {
+            const { title, description, slug, cover, date } = article;
+            const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
+            return (
+              <div class="bg-primary rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+                <img src={imageUrl} alt={title} width="444" height="250" class="w-full h-40 object-cover rounded-t-lg"/>
+                <div class="p-6 flex flex-col flex-1">
+                  <p class="mb-2 text-xs" style="color: var(--color-accent);">{new Date(date).toLocaleDateString('it-IT')}</p>
+                  <h2 class="text-2xl font-bold mb-2 text-white">{title}</h2>
+                  <p class="text-secondary mb-4 flex-grow">{description}</p>
+                  <ButtonLink href={`/blog/${slug}`} class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px]">Continua a leggere →</ButtonLink>
+                </div>
+              </div>
+            );
+          })
+        }
       </div>
-    )}
+
+      <!-- Элемент для индикатора загрузки -->
+    <div id="article-loader" class="loader" style="display: none;">Loading...</div>
   </section>
+
+  <script define:vars={{ initialHasMore, initialPage, pageSize, totalPages, STRAPI_BASE_URL }}>
+    let isLoading = false;
+    let hasMore = initialHasMore;
+    let currentPage = initialPage;
+    console.log('1' + initialHasMore)
+    console.log('2' + initialPage)
+  
+    const articleLoader = document.getElementById("article-loader");
+    const articlesGrid = document.getElementById("post-container");
+  
+    const fetchMoreArticles = async () => {
+      if (isLoading || !hasMore) return;
+  
+      isLoading = true;
+      articleLoader.style.display = "block";
+  
+      try {
+        const response = await fetch(
+          `${STRAPI_BASE_URL}/api/articles?pagination[page]=${currentPage + 1}&pagination[pageSize]=${pageSize}&populate=*`
+        );
+        const { data: articles, meta } = await response.json();
+        console.log(articles)
+        console.log(meta)
+        if (articles.length === 0) {
+          hasMore = false;
+        } else {
+          console.log('Load more posts')
+          currentPage++;
+          articles.forEach((article) => {
+            const { title, description, slug, cover, date } = article;
+            const articleElement = document.createElement("div");
+            const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
+            articleElement.classList.add("bg-primary", "rounded-xl", "shadow-md", "overflow-hidden", "hover:shadow-lg", "transition-shadow", "duration-300", "flex", "flex-col");
+            articleElement.innerHTML = `
+            <img src="${imageUrl}" alt="${title}" width="444" height="250" class="w-full h-40 object-cover rounded-t-lg"/>
+            <div class="p-6 flex flex-col flex-1">
+              <p class="mb-2 text-xs" style="color: var(--color-accent);">${new Date(date).toLocaleDateString('it-IT')}</p>
+              <h2 class="text-2xl font-bold mb-2 text-white">${title}</h2>
+              <p class="text-secondary mb-4 flex-grow">${description}</p>
+              <a href="/blog/${slug}" class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px] px-4 py-2 rounded">Continua a leggere →</a>
+            </div>
+            `;
+            articlesGrid.appendChild(articleElement);
+          });
+          hasMore = currentPage < meta.pagination.pageCount;
+        }
+        console.log(
+          `Fetched page ${currentPage}/${totalPages}, hasMore: ${hasMore}`
+        );
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+        hasMore = false;
+      } finally {
+        isLoading = false;
+        articleLoader.style.display = hasMore ? "none" : "block";
+        articleLoader.textContent = hasMore
+          ? "Loading more articles..."
+          : "No more articles to load.";
+  
+        if (!hasMore) {
+          window.removeEventListener("scroll", handleScroll);
+          console.log("No more articles, removed scroll listener");
+        }
+      }
+    };
+
+    const handleScroll = () => {
+    if (isLoading || !hasMore) return;
+
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const clientHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight - 200) {
+      console.log(`Triggering fetch for page ${currentPage + 1}`);
+      console.log(`currentPage: ${currentPage}, totalPages: ${totalPages}, hasMore: ${hasMore}`);
+      fetchMoreArticles();
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+
+  </script>
 </MainLayout>
