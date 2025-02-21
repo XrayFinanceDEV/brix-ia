@@ -4,6 +4,17 @@ import MainLayout from "@layouts/MainLayout.astro";
 
 const SITEMAP_URL = 'https://api.brix-ia.com/api/strapi-5-sitemap-plugin/sitemap.xml';
 
+// Funzione per estrarre un "titolo" leggibile dalla URL del post
+function extractTitle(url: string): string {
+  let path = url.replace('https://brix-ia.com/', '');
+  path = path.startsWith('blog/') ? path.replace('blog/', '') : path;
+  const slug = path.split('/').pop() || '';
+  return slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 async function getSitemapUrls(): Promise<string[]> {
   try {
     const res = await fetch(SITEMAP_URL);
@@ -13,10 +24,8 @@ async function getSitemapUrls(): Promise<string[]> {
     const parser = new XMLParser();
     const xmlObj = parser.parse(xmlText);
 
-    // Controlliamo che il formato sia corretto
     if (!xmlObj.urlset || !xmlObj.urlset.url) throw new Error('Formato XML non valido');
 
-    // Se la sitemap contiene un solo URL, lo normalizziamo in un array
     const urls: string[] = Array.isArray(xmlObj.urlset.url)
       ? xmlObj.urlset.url.map((entry: any) => entry.loc)
       : [xmlObj.urlset.url.loc];
@@ -28,24 +37,55 @@ async function getSitemapUrls(): Promise<string[]> {
   }
 }
 
-// Recupera gli URL della sitemap
-const urls = await getSitemapUrls();
+// Link principali (hardcoded)
+const mainLinks = [
+  { href: 'https://brix-ia.com/', title: 'Home' },
+  { href: 'https://brix-ia.com/community', title: 'Community' },
+  { href: 'https://brix-ia.com/blog', title: 'Blog' }
+];
+
+const sitemapUrls = await getSitemapUrls();
+const blogPostUrls = sitemapUrls.filter(url => url.includes('/blog/'));
 ---
 
-<MainLayout>
-  <head>
-    <title>Mappa del Sito</title>
-  </head>
-  <body>
-    <h1>Mappa del Sito</h1>
-    <ul>
-      {urls.length > 0 ? (
-        urls.map((url: string) => (
-          <li><a href={url}>{url.replace('https://brix-ia.com', '')}</a></li>
-        ))
-      ) : (
-        <p>Errore nel caricamento della sitemap</p>
-      )}
-    </ul>
-  </body>
+<MainLayout
+  title="Mappa del sito Brix-IA"
+  description="Mappa del sito della Community Brix-IA"
+  canonical="https://brix-ia.com/mappa-del-sito"
+  ogImage="https://api.brix-ia.com/uploads/Brix_IA_news_c12469fb3b.jpg"
+>
+  <section class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6 mt-[100px]">Mappa del Sito</h1>
+    <p class="mb-8">Qui trovi tutte le pagine del sito Brix-IA organizzate nelle rispettive sezioni</p>
+    
+    <!-- Sezione Link Principali -->
+    <h2 class="text-2xl font-bold mb-4">Pagine Principali Brix-IA</h2>
+    <div class="p-4 border border-gray-300 rounded">
+      {mainLinks.map((link, index) => (
+        <>
+          <a href={link.href}>
+            <h3 class="text-xl font-semibold hover:text-[var(--color-accent)] transition-colors">{link.title}</h3>
+          </a>
+          {index !== mainLinks.length - 1 && <hr class="border-t border-gray-300 my-2" />}
+        </>
+      ))}
+    </div>
+
+    <!-- Sezione Post del Blog -->
+    <h2 class="text-2xl font-bold mt-8 mb-4">Post del Blog di Brix-IA</h2>
+    {blogPostUrls.length > 0 ? (
+      <div class="p-4 border border-gray-300 rounded">
+        {blogPostUrls.map((url, index) => (
+          <>
+            <a href={url}>
+              <h3 class="text-xl font-semibold hover:text-[var(--color-accent)] transition-colors">{extractTitle(url)}</h3>
+            </a>
+            {index !== blogPostUrls.length - 1 && <hr class="border-t border-gray-300 my-2" />}
+          </>
+        ))}
+      </div>
+    ) : (
+      <p>Errore nel caricamento dei post dal blog</p>
+    )}
+  </section>
 </MainLayout>
