@@ -1,7 +1,46 @@
 ---
-// Puoi definire eventuali props o logica qui
+import Logo from "@components/Logo.astro";
 ---
-<footer class="bg-footer p-4 text-center">
-    <p>© 2025 Il Brix-IA Tutti i diritti riservati.</p>
-  </footer>
+<footer class="bg-footer mt-8 p-4">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+    {/* Colonna 1: Logo e indirizzo */}
+    <div class="flex flex-col items-center md:items-start">
+      <a class="text-3xl font-bold leading-none text-white" href="/">
+        <Logo />
+      </a>
+      <p class="text-sm mt-2 text-center md:text-left">
+        La community di Brescia dell'<br>Intelligenza Artificiale
+      </p>
+      <p class="text-sm text-center md:text-left">
+        Via Parma 10 - 25125 Brescia (BS)
+      </p>
+    </div>
+    
+    {/* Colonna 2: Link di navigazione e bottone */}
+    <div class="flex flex-col items-center">
+      <nav class="flex flex-col gap-1">
+        <a href="/community" class="hover:underline">Community</a>
+        <a href="/blog" class="hover:underline">News & Guide AI</a>
+        <a href="https://www.eventbrite.it/e/biglietti-iii-incontro-brix-ia-meet-up-teoria-e-pratica-1252767634719" class="hover:underline">Eventi Brix-IA</a>
+        <a href="/mappa-del-sito" class="hover:underline">Mappa del Sito</a>
+      </nav>
+    </div>
+    
+    {/* Colonna 3: Icone social */}
+    <div class="flex flex-col items-center">
+      <p class="mb-2 text-sm text-gray-300">Seguici su</p>
+      <div class="flex gap-4">
+        {/*<a href="https://x.com" target="_blank" rel="noopener noreferrer">
+          <img src="/icons/x.svg" alt="X" class="w-6 h-6" />
+        </a>*/}
+        <a href="https://t.me/+E54HAdd4b1kyNWU0" target="_blank" rel="noopener noreferrer">
+          <img src="/icons/telegram.svg" alt="Telegram di Brix-IA" class="w-8 h-8" />
+        </a>
+      </div>
+    </div>
+  </div>
   
+  <p class="mt-6 text-center text-xs">
+    © 2025 Intelligenza Artificiale Brescia Brix-IA - Tutti i diritti riservati
+  </p>
+</footer>
