@@ -53,40 +53,41 @@ const fetchArticles = async (page: number) => {
   <section class="container mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold mb-6 mt-[100px]">Guide e News della Community Brix-IA</h1>
 
-    <!-- Контейнер для постов -->
     <div class="articles-container">    
-      <!-- Контейнер для статей -->
       <div id="post-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {
           initialArticles.map((article: Article) => {
             const { title, description, slug, cover, date } = article;
             const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
             return (
-              <div class="bg-primary rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
-                <img src={imageUrl} alt={title} width="444" height="250" class="w-full h-40 object-cover rounded-t-lg"/>
+              <a href={`/blog/${slug}`} class="block bg-primary rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col group">
+                <img 
+                  src={imageUrl} 
+                  alt={title} 
+                  width="444" 
+                  height="250" 
+                  class="w-full h-40 object-cover rounded-t-lg transition duration-300 group-hover:brightness-110"
+                />
                 <div class="p-6 flex flex-col flex-1">
                   <p class="mb-2 text-xs" style="color: var(--color-accent);">{new Date(date).toLocaleDateString('it-IT')}</p>
-                  <h2 class="text-2xl font-bold mb-2 text-white">{title}</h2>
+                  <h2 class="text-2xl font-bold mb-2 text-white transition-colors duration-300 group-hover:text-[var(--color-accent)]">{title}</h2>
                   <p class="text-secondary mb-4 flex-grow">{description}</p>
-                  <ButtonLink href={`/blog/${slug}`} class="bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px]">Continua a leggere →</ButtonLink>
                 </div>
-              </div>
+              </a>
             );
           })
         }
       </div>
 
-      <!-- Элемент для индикатора загрузки -->
-    <div id="article-loader" class="loader" style="display: none;">Loading...</div>
+      <div id="article-loader" class="loader" style="display: none;">Loading...</div>
   </section>
 
+  <!-- Il tuo script rimane invariato, ma lo aggiorno per il nuovo HTML -->
   <script define:vars={{ initialHasMore, initialPage, pageSize, totalPages, STRAPI_BASE_URL }}>
     let isLoading = false;
     let hasMore = initialHasMore;
     let currentPage = initialPage;
-    console.log('1' + initialHasMore)
-    console.log('2' + initialPage)
-  
+    
     const articleLoader = document.getElementById("article-loader");
     const articlesGrid = document.getElementById("post-container");
   
@@ -101,34 +102,35 @@ const fetchArticles = async (page: number) => {
           `${STRAPI_BASE_URL}/api/articles?pagination[page]=${currentPage + 1}&pagination[pageSize]=${pageSize}&populate=*`
         );
         const { data: articles, meta } = await response.json();
-        console.log(articles)
-        console.log(meta)
+        
         if (articles.length === 0) {
           hasMore = false;
         } else {
-          console.log('Load more posts')
           currentPage++;
           articles.forEach((article) => {
             const { title, description, slug, cover, date } = article;
-            const articleElement = document.createElement("div");
             const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
-            articleElement.classList.add("bg-primary", "rounded-xl", "shadow-md", "overflow-hidden", "hover:shadow-lg", "transition-shadow", "duration-300", "flex", "flex-col");
+            const articleElement = document.createElement("a");
+            articleElement.href = `/blog/${slug}`;
+            articleElement.classList.add("block", "bg-primary", "rounded-xl", "shadow-md", "overflow-hidden", "hover:shadow-lg", "transition-shadow", "duration-300", "flex", "flex-col", "group");
             articleElement.innerHTML = `
-            <img src="${imageUrl}" alt="${title}" width="444" height="250" class="w-full h-40 object-cover rounded-t-lg"/>
-            <div class="p-6 flex flex-col flex-1">
-              <p class="mb-2 text-xs" style="color: var(--color-accent);">${new Date(date).toLocaleDateString('it-IT')}</p>
-              <h2 class="text-2xl font-bold mb-2 text-white">${title}</h2>
-              <p class="text-secondary mb-4 flex-grow">${description}</p>
-              <a href="/blog/${slug}" class="flex justify-center inline-flex items-center gap-2 py-2 px-6 bg-green-500 hover:bg-green-600 text-sm text-white font-bold rounded-l-xl rounded-t-xl transition duration-200 bg-accent hover:bg-green-600 text-dark self-end w-auto ml-[5px] px-4 py-2 rounded">Continua a leggere →</a>
-            </div>
+              <img 
+                src="${imageUrl}" 
+                alt="${title}" 
+                width="444" 
+                height="250" 
+                class="w-full h-40 object-cover rounded-t-lg transition duration-300 group-hover:brightness-110"
+              />
+              <div class="p-6 flex flex-col flex-1">
+                <p class="mb-2 text-xs" style="color: var(--color-accent);">${new Date(date).toLocaleDateString('it-IT')}</p>
+                <h2 class="text-2xl font-bold mb-2 text-white transition-colors duration-300 group-hover:text-[var(--color-accent)]">${title}</h2>
+                <p class="text-secondary mb-4 flex-grow">${description}</p>
+              </div>
             `;
             articlesGrid.appendChild(articleElement);
           });
           hasMore = currentPage < meta.pagination.pageCount;
         }
-        console.log(
-          `Fetched page ${currentPage}/${totalPages}, hasMore: ${hasMore}`
-        );
       } catch (error) {
         console.error("Error fetching articles:", error);
         hasMore = false;
@@ -141,27 +143,21 @@ const fetchArticles = async (page: number) => {
   
         if (!hasMore) {
           window.removeEventListener("scroll", handleScroll);
-          console.log("No more articles, removed scroll listener");
         }
       }
     };
 
     const handleScroll = () => {
-    if (isLoading || !hasMore) return;
+      if (isLoading || !hasMore) return;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const clientHeight = window.innerHeight || document.documentElement.clientHeight;
 
-    const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const clientHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (scrollTop + clientHeight >= scrollHeight - 200) {
+        fetchMoreArticles();
+      }
+    };
 
-    if (scrollTop + clientHeight >= scrollHeight - 200) {
-      console.log(`Triggering fetch for page ${currentPage + 1}`);
-      console.log(`currentPage: ${currentPage}, totalPages: ${totalPages}, hasMore: ${hasMore}`);
-      fetchMoreArticles();
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-
+    window.addEventListener("scroll", handleScroll);
   </script>
 </MainLayout>

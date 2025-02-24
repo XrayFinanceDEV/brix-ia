@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+
+Sitemap: https://api.brix-ia.com/robots.txt
