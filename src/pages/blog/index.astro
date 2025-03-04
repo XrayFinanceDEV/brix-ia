@@ -1,21 +1,20 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
-import ButtonLink from "src/components/ButtonLink.astro";
 // import { getCollection } from "astro:content";
 export const prerender = false;
 
 const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com";
 const initialPage = parseInt(Astro.url.searchParams.get("page") || "1");
 
-// Загружаем первую порцию постов
+// Primi 6 post
 const pageSize = 6;
 
 const fetchArticles = async (page: number) => {
   const response = await fetch(
-    `${STRAPI_BASE_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=*`
+    `${STRAPI_BASE_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=date:desc&populate=*`
   );
   if (!response.ok) {
-    console.error("Ошибка при запросе:", response.status);
+    console.error("Strapi Error", response.status);
     return {
       articles: [],
       hasMore: false,
@@ -99,7 +98,7 @@ const fetchArticles = async (page: number) => {
   
       try {
         const response = await fetch(
-          `${STRAPI_BASE_URL}/api/articles?pagination[page]=${currentPage + 1}&pagination[pageSize]=${pageSize}&populate=*`
+          `${STRAPI_BASE_URL}/api/articles?pagination[page]=${currentPage + 1}&pagination[pageSize]=${pageSize}&sort=date:desc&populate=*`
         );
         const { data: articles, meta } = await response.json();
         

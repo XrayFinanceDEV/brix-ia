@@ -1,0 +1,171 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import FAQ from "@components/blocks/FAQ.astro";
+import BigCard from "@/components/blocks/BigCard.astro";
+
+// Dati statici per le sezioni
+const courseDetails = {
+  title: "CORSO di GENERATIVE AI",
+  subtitle: "Aumenta la produttività del tuo lavoro grazie all’AI Generativa",
+  description: "Il corso Generative AI é stato creato per essere la tua guida nella scoperta del potenziale illimitato delle Generative AI.",
+  perks: [
+    "Tutti gli iscritti hanno accesso ad aggiornamenti mensili, approfondimenti e lezioni con docenti sempre nuove.",
+    "Tutto quello che ti serve per restare al passo con i nuovi trend di mercato in un unico corso."
+  ],
+  tools: ["ChatGPT", "DALL-E", "Canva", "Midjourney", "Copilot", "... e tutti i migliori tool al mondo"]
+};
+
+const offerDetails = {
+  price: "197€",
+  originalPrice: "397€",
+  discount: "50%",
+  label: "OFFERTA LIMITATA",
+  benefits: [
+    "Accesso a tutte le video lezioni",
+    "Accesso a tutte le lezioni mensili in diretta con i docenti",
+    "Aggiornamenti mensili inclusi",
+    "Esercitazioni su PROGETTI REALI",
+    "Certificazione finale",
+    "Supporto docenti"
+  ],
+  cta: "ISCRIVITI ORA",
+  deadline: "offerta valida solo fino al 06/03/2025",
+  courseCode: "corso-gpt.astro"
+};
+
+const highlights = [
+  {
+    icon: "/icons/learning.svg",
+    title: "Corso di 4 ore completo con esempi pratici"
+  },
+  {
+    icon: "/icons/refresh.svg",
+    title: "Aggiornamenti continui sulle ultime novità"
+  },
+  {
+    icon: "/icons/support.svg",
+    title: "Supporto 24h dai docenti e dalla community"
+  }
+];
+
+const BigCardData = {
+        "title": "Non sai da dove partire nel mondo dell'IA?",
+        "subtitle": "Unisciti a Brix-IA",
+        "description": "Scopri un ecosistema dedicato all’intelligenza artificiale. Partecipa a workshop, connettiti con esperti del settore e accedi a risorse esclusive per sviluppare le tue competenze. Che tu sia un principiante o un professionista, troverai il supporto giusto per crescere e innovare. 🚀",
+        "cta": {
+          "text": "Unisciti a Brix-IA",
+          "link": "https://t.me/+E54HAdd4b1kyNWU0"
+        },
+        "image": {
+          "src": "https://api.brix-ia.com/uploads/fifia_con_occhiali_hacker_min_eab3880e50.png",
+          "alt": "Immagine Blocco"
+        },
+        "imagePosition": "right"
+      };
+
+
+const faqData = [
+  {
+    question: "Cos’è Brix-IA e qual è il suo obiettivo?",
+    answer: "Brix-IA è la prima community di Brescia dedicata all’Intelligenza Artificiale. Il suo obiettivo è creare uno spazio di condivisione e sperimentazione in cui professionisti, studenti, imprenditori e appassionati possano incontrarsi, collaborare e sviluppare progetti concreti legati all’AI."
+  },
+  {
+    question: "Chi può entrare a far parte della community?",
+    answer: "Brix-IA è aperta a tutti, indipendentemente dal livello di esperienza. Non importa se sei un esperto di AI, uno studente, un imprenditore o semplicemente un curioso: se hai voglia di imparare e condividere, troverai un ambiente inclusivo e stimolante."
+  },
+  {
+    question: "Quali attività organizza Brix-IA?",
+    answer: "La community organizza workshop pratici, hackathon, meetup tematici e progetti collaborativi per applicare l’AI in ambiti concreti. Inoltre, Brix-IA collabora con aziende e istituzioni per favorire l’innovazione e la crescita professionale dei suoi membri."
+  },
+  {
+    question: "Come posso partecipare agli eventi di Brix-IA?",
+    answer: "Puoi partecipare agli eventi di Brix-IA iscrivendoti al gruppo Telegram ufficiale, seguendo la community sui social o visitando il sito web per rimanere aggiornato sul calendario delle attività. La maggior parte degli eventi è gratuita e aperta a tutti."
+  },
+  {
+    question: "Quali vantaggi offre far parte di Brix-IA?",
+    answer: "Entrare in Brix-IA ti permette di accedere a formazione gratuita, networking con esperti del settore, collaborazioni con aziende innovative e opportunità di crescita professionale. Inoltre, potrai proporre idee, sviluppare progetti reali e contribuire attivamente all’ecosistema AI di Brescia."
+  }
+];
+---
+
+<MainLayout 
+  title="Corso Generative AI"
+  description="Scopri il potenziale dell'AI Generativa per aumentare la tua produttività con il nostro corso completo."
+  canonical="https://tuo-sito.com/corso-generative-ai"
+  ogImage="https://tuo-sito.com/uploads/corso-generative-ai.jpg"
+>
+  <!-- Contenitore principale con layout a due colonne -->
+  <section class="container mx-auto px-4 py-16 text-white mt-[100px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Sezione 1: Presentazione del corso (sinistra) -->
+      <div class="flex flex-col justify-center">
+        <h1 class="text-5xl font-bold mb-4" style="color: #80FDBE">{courseDetails.title}</h1>
+        <h2 class="text-2xl font-semibold text-gray-300 mb-6">{courseDetails.subtitle}</h2>
+        <p class="text-lg text-gray-400 max-w-lg mb-8">{courseDetails.description}</p>
+        
+        {courseDetails.perks.map(perk => (
+          <p class="text-md text-gray-500 max-w-lg mb-4">{perk}</p>
+        ))}
+        
+        <p class="text-lg font-medium text-gray-300 mt-6">Alcuni degli strumenti che imparerai ad utilizzare:</p>
+        <ul class="text-gray-400 mt-4">
+          {courseDetails.tools.map(tool => (
+            <li class="mb-2">🟩 {tool}</li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Sezione 2: Offerta (destra) -->
+      <div class="bg-gray-800 shadow-lg rounded-lg p-8 text-center">
+        <span class="inline-block text-white text-sm font-bold px-3 py-1 rounded-full mb-4">{offerDetails.label}</span>
+        <p class="text-4xl font-bold text-white mb-2">{offerDetails.price}</p>
+        <p class="text-xl text-gray-500 line-through">{offerDetails.originalPrice}</p>
+        <p class="text-2xl font-semibold mb-6" style="color: #80FDBE">{offerDetails.discount} SCONTO</p>
+        
+        <ul class="text-left text-gray-400 mb-8">
+          {offerDetails.benefits.map(benefit => (
+            <li class="flex items-center mb-2">
+              <svg class="w-5 h-5 mr-2" style="color: #80FDBE" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              {benefit}
+            </li>
+          ))}
+        </ul>
+        
+        <a href="#" class="inline-block text-white font-bold py-3 px-6 rounded-lg transition" style="background-color: #80FDBE; color: #1F2937;" onmouseover="this.style.backgroundColor='#00E0C6'" onmouseout="this.style.backgroundColor='#80FDBE'">{offerDetails.cta}</a>
+        <p class="text-sm text-gray-500 mt-4">{offerDetails.deadline}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione larga a tutto schermo con colore accent -->
+  <section class="w-full py-16 text-center mb-10" style="background-color: #80FDBE; color: #1F2937;">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {highlights.map(highlight => (
+          <div class="flex flex-col items-center">
+            <img src={highlight.icon} alt={highlight.title} class="mb-4" />
+            <p class="text-lg font-semibold text-gray-800">{highlight.title}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    </section>
+    <!-- Sezione BigCard -->
+    <section class="container mx-auto px-4 py-16 bg-[var(--bg-main)] text-white">
+    <BigCard
+        title={BigCardData.title}
+        subtitle={BigCardData.subtitle}
+        description={BigCardData.description}
+        cta={BigCardData.cta}
+        image={BigCardData.image}
+        imagePosition={BigCardData.imagePosition}
+        />
+    </section>
+    <!-- Nuova sezione FAQ -->
+  <section class="container mx-auto px-4 py-16 bg-[var(--bg-main)] text-white">
+    <h2 class="text-3xl font-bold text-center mb-8" style="color: #80FDBE">Domande Frequenti</h2>
+    <FAQ faq={faqData} />
+  </section>
+</MainLayout>
