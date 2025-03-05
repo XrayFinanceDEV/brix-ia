@@ -1,0 +1,59 @@
+---
+import { SEO } from "astro-seo";
+import Footer from "@components/Footer.astro";
+import CookieBanner from "@components/CookieBanner.astro";
+import "../themes/dark.css";
+
+// Ricevi le props dal layout (con valori di default)
+const {
+  title = "Titolo di default",
+  description = "Descrizione di default",
+  canonical = "https://brix-ia.com",
+  ogImage = "https://brix-ia.com/Brix_IA_Home_Page_d06dbc5925.jpg"
+} = Astro.props;
+
+// Definisci le proprietà per SEO
+const seoProps = {
+  title,
+  description,
+  canonical,
+  openGraph: {
+    basic: {
+      title,
+      type: "website",
+      image: ogImage,
+      url: canonical,
+    },
+    optional: {
+      locale: "it_IT",
+    },
+  },
+  extend: {
+    meta: [
+      { name: "robots", content: "index, follow" }
+    ],
+  },
+};
+---
+
+<html lang="it">
+  <head>
+    <SEO {...seoProps} />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <div class="w-full bg-main">
+      <slot />
+    </div>
+    <Footer />
+    <!-- Includiamo il CookieBanner -->
+    <CookieBanner />
+  </body>
+</html>

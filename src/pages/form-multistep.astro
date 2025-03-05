@@ -1,0 +1,223 @@
+---
+import FormLayout from "@layouts/FormLayout.astro";
+---
+
+<FormLayout 
+  title="La Community di Brix-IA"
+  description="Brix-IA community: scopri i talenti impegnati nello sviluppo e testing dell'intelligenza artificiale a Brescia"
+  canonical="https://brix-ia.com/community"
+  ogImage="https://api.brix-ia.com/uploads/Brix_IA_community_0a3d74301d.jpg"
+>
+
+    <style>
+        .step {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .step.visible {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    </style>
+
+  <section 
+    class="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 bg-cover bg-center" 
+    style="background-image: url('https://api.brix-ia.com/uploads/corso_brix_ia_registrazione_c6d6cde6e7.webp')"
+  >
+    <div class="w-full max-w-3xl">
+      <!-- Progress Bar -->
+      <div class="mb-8">
+        <div class="w-full bg-gray-700 rounded-full h-2">
+          <div id="progress-bar" class="bg-[#80FDBE] h-2 rounded-full transition-all" style="width: 16.66%"></div>
+        </div>
+        <p class="text-gray-300 text-sm font-semibold mt-2 ">Step <span id="current-step">1</span> di 6</p>
+      </div>
+
+      <!-- Form -->
+      <form id="multistep-form" class="flex flex-col gap-6 text-white relative bg-gray-900/80 p-6 rounded-lg">
+        <!-- Step 1: Nome -->
+        <div class="step" data-step="1">
+          <div class="mb-6">
+            <span class="text-4xl font-bold" style="color: #80FDBE">1</span>
+            <h2 class="text-2xl font-bold mt-2 mb-2" style="color: #80FDBE">Come preferisci che ci interfacciamo con te?</h2>
+            <p class="text-gray-400">Scrivi il tuo nome <span class="text-red-400">*</span></p>
+          </div>
+          <input
+            type="text"
+            name="nome"
+            required
+            class="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#80FDBE]"
+            placeholder="Il tuo nome"
+          />
+          <div class="flex items-center gap-2 mt-16">
+            <button
+              type="button"
+              class="next-btn bg-[#80FDBE] text-[#1F2937] font-bold py-2 px-4 rounded-lg transition hover:bg-[#00E0C6]"
+            >
+              Procedi
+            </button>
+            <span class="text-gray-300 text-sm">⏎ premi invio</span>
+          </div>
+        </div>
+
+        <!-- Step 2: Azienda -->
+        <div class="step hidden" data-step="2">
+          <div class="mb-6">
+            <span class="text-4xl font-bold" style="color: #80FDBE">2</span>
+            <h2 class="text-2xl font-bold mt-2 mb-2" style="color: #80FDBE">Quale azienda rappresenti?</h2>
+            <p class="text-gray-400">Scrivi il nome dell'azienda <span class="text-red-400">*</span></p>
+          </div>
+          <input
+            type="text"
+            name="azienda"
+            required
+            class="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#80FDBE]"
+            placeholder="Nome azienda"
+          />
+          <div class="flex items-center gap-2 mt-16">
+            <button
+              type="button"
+              class="next-btn bg-[#80FDBE] text-[#1F2937] font-bold py-2 px-4 rounded-lg transition hover:bg-[#00E0C6]"
+            >
+              Procedi
+            </button>
+            <span class="text-gray-300 text-sm">⏎ premi invio</span>
+          </div>
+        </div>
+
+        <!-- Step 3: Mail -->
+        <div class="step hidden" data-step="3">
+          <div class="mb-6">
+            <span class="text-4xl font-bold" style="color: #80FDBE">3</span>
+            <h2 class="text-2xl font-bold mt-2 mb-2" style="color: #80FDBE">Ci serve una mail</h2>
+            <p class="text-gray-400">Scrivici la tua mail aziendale <span class="text-red-400">*</span></p>
+          </div>
+          <input
+            type="email"
+            name="email"
+            required
+            class="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#80FDBE]"
+            placeholder="email@azienda.com"
+          />
+          <div class="flex items-center gap-2 mt-16">
+            <button
+              type="button"
+              class="next-btn bg-[#80FDBE] text-[#1F2937] font-bold py-2 px-4 rounded-lg transition hover:bg-[#00E0C6]"
+            >
+              Procedi
+            </button>
+            <span class="text-gray-300 text-sm">⏎ premi invio</span>
+          </div>
+        </div>
+
+        <!-- Step 4: Partecipanti -->
+        <div class="step hidden" data-step="4">
+          <div class="mb-6">
+            <span class="text-4xl font-bold" style="color: #80FDBE">4</span>
+            <h2 class="text-2xl font-bold mt-2 mb-2" style="color: #80FDBE">Quanti partecipanti?</h2>
+            <p class="text-gray-400">Quanti saranno all'incirca i partecipanti? <span class="text-red-400">*</span></p>
+          </div>
+          <input
+            type="number"
+            name="partecipanti"
+            required
+            min="1"
+            class="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#80FDBE]"
+            placeholder="Es. 10"
+          />
+          <div class="flex items-center gap-2 mt-16">
+            <button
+              type="button"
+              class="next-btn bg-[#80FDBE] text-[#1F2937] font-bold py-2 px-4 rounded-lg transition hover:bg-[#00E0C6]"
+            >
+              Procedi
+            </button>
+            <span class="text-gray-300 text-sm">⏎ premi invio</span>
+          </div>
+        </div>
+
+        <!-- Step 5: Sede -->
+        <div class="step hidden" data-step="5">
+          <div class="mb-6">
+            <span class="text-4xl font-bold" style="color: #80FDBE">5</span>
+            <h2 class="text-2xl font-bold mt-2 mb-2" style="color: #80FDBE">Dove preferisci il corso?</h2>
+            <p class="text-gray-400">Scegli la sede <span class="text-red-400">*</span></p>
+          </div>
+          <div class="flex flex-col gap-4">
+            <label class="flex items-center">
+              <input type="radio" name="sede" value="vostra" required class="mr-2 text-[#80FDBE] focus:ring-[#80FDBE]" />
+              <span class="text-gray-200">Nella vostra sala riunioni</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="sede" value="nostra" class="mr-2 text-[#80FDBE] focus:ring-[#80FDBE]" />
+              <span class="text-gray-200">Nella nostra sede a Brescia</span>
+            </label>
+          </div>
+          <div class="flex items-center gap-2 mt-16">
+            <button
+              type="button"
+              class="next-btn bg-[#80FDBE] text-[#1F2937] font-bold py-2 px-4 rounded-lg transition hover:bg-[#00E0C6]"
+            >
+              Procedi
+            </button>
+            <span class="text-gray-300 text-sm">⏎ premi invio</span>
+          </div>
+        </div>
+
+        <!-- Step 6: Sorgente traffico -->
+        <div class="step hidden" data-step="6">
+          <div class="mb-6">
+            <span class="text-4xl font-bold" style="color: #80FDBE">6</span>
+            <h2 class="text-2xl font-bold mt-2 mb-2" style="color: #80FDBE">Come ci hai conosciuti?</h2>
+            <p class="text-gray-400">Seleziona un'opzione <span class="text-red-400">*</span></p>
+          </div>
+          <select
+            name="sorgente"
+            required
+            class="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#80FDBE]"
+          >
+            <option value="" disabled selected>Scegli un'opzione</option>
+            <option value="web">Web</option>
+            <option value="amici">Consiglio di amici</option>
+            <option value="social">Social</option>
+            <option value="altro">Altro</option>
+          </select>
+          <div class="flex items-center gap-2 mt-16">
+            <button
+              type="submit"
+              class="bg-[#80FDBE] text-[#1F2937] font-bold py-2 px-4 rounded-lg transition hover:bg-[#00E0C6]"
+            >
+              Invia Richiesta
+            </button>
+            <span class="text-gray-300 text-sm">⏎ premi invio</span>
+          </div>
+        </div>
+
+        <!-- Pulsanti di navigazione in basso a destra -->
+        <div class="absolute bottom-4 right-4 flex gap-2">
+          <button
+            type="button"
+            id="prev-btn"
+            class="bg-[#80FDBE] text-[#1F2937] font-bold w-10 h-10 rounded-xl transition hover:bg-[#00E0C6] items-center justify-center"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            id="next-btn"
+            class="bg-[#80FDBE] text-[#1F2937] font-bold w-10 h-10 rounded-xl transition hover:bg-[#00E0C6] flex items-center justify-center"
+          >
+            →
+          </button>
+        </div>
+
+        <!-- Messaggio di feedback -->
+        <p id="form-message" class="text-gray-400 mt-4"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Collegamento allo script esterno -->
+  <script src="/js/multistep-form.js" is:inline></script>
+</FormLayout>

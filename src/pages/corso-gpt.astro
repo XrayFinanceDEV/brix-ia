@@ -5,31 +5,30 @@ import BigCard from "@/components/blocks/BigCard.astro";
 
 // Dati statici per le sezioni
 const courseDetails = {
-  title: "CORSO di GENERATIVE AI",
-  subtitle: "Aumenta la produttività del tuo lavoro grazie all’AI Generativa",
-  description: "Il corso Generative AI é stato creato per essere la tua guida nella scoperta del potenziale illimitato delle Generative AI.",
+  title: "CORSO FORMAZIONE GENERATIVE AI A BRESCIA",
+  subtitle: "Formazione Intelligenza Artificiale a Brescia con Brix-IA",
+  description: "Brix-IA è una community di professionisti, imprenditori e innovatori che promuovono la formazione in intelligenza artificiale a Brescia. Il nostro obiettivo è diffondere la cultura dell’IA aziendale, offrendo corsi pratici e aggiornati sulle ultime tecnologie, come ChatGPT e automazione AI.",
   perks: [
-    "Tutti gli iscritti hanno accesso ad aggiornamenti mensili, approfondimenti e lezioni con docenti sempre nuove.",
-    "Tutto quello che ti serve per restare al passo con i nuovi trend di mercato in un unico corso."
+    ""
   ],
-  tools: ["ChatGPT", "DALL-E", "Canva", "Midjourney", "Copilot", "... e tutti i migliori tool al mondo"]
+  tools: ["ChatGPT", "GPTs", "Agenti AI", "Automazione", "... e molto altro"]
 };
 
 const offerDetails = {
-  price: "197€",
-  originalPrice: "397€",
+  price: "1.200€",
+  originalPrice: "2.400€",
   discount: "50%",
   label: "OFFERTA LIMITATA",
   benefits: [
-    "Accesso a tutte le video lezioni",
-    "Accesso a tutte le lezioni mensili in diretta con i docenti",
+    "Corso in Presenza",
+    "Mezza giornata (4 ore)",
+    "Massimo 10 partecipanti",
     "Aggiornamenti mensili inclusi",
     "Esercitazioni su PROGETTI REALI",
-    "Certificazione finale",
     "Supporto docenti"
   ],
-  cta: "ISCRIVITI ORA",
-  deadline: "offerta valida solo fino al 06/03/2025",
+  cta: "Richiedi Informazioni",
+  deadline: "offerta valida solo fino al 31/03/2025",
   courseCode: "corso-gpt.astro"
 };
 
@@ -49,20 +48,65 @@ const highlights = [
 ];
 
 const BigCardData = {
-        "title": "Non sai da dove partire nel mondo dell'IA?",
-        "subtitle": "Unisciti a Brix-IA",
-        "description": "Scopri un ecosistema dedicato all’intelligenza artificiale. Partecipa a workshop, connettiti con esperti del settore e accedi a risorse esclusive per sviluppare le tue competenze. Che tu sia un principiante o un professionista, troverai il supporto giusto per crescere e innovare. 🚀",
+        "title": "🎯 Perché Investire nella Formazione in Intelligenza Artificiale a Brescia?",
+        "subtitle": "L’intelligenza artificiale per aziende",
+        "description": "è una tecnologia rivoluzionaria che può migliorare l’efficienza e la competitività. Ecco alcuni vantaggi:<strong><br>✅ Automatizzazione dei processi ripetitivi<br>✅ Miglioramento della comunicazione interna ed esterna<br>✅ Aumento della produttività con strumenti basati su AI<br>✅ Ottimizzazione del lavoro grazie a ChatGPT e AI generativa</strong><br><br>Le aziende che investono nella formazione sull’intelligenza artificiale a Brescia ottengono un vantaggio strategico nel loro settore. 🚀",
         "cta": {
-          "text": "Unisciti a Brix-IA",
-          "link": "https://t.me/+E54HAdd4b1kyNWU0"
+          "text": "Richiedi Informazioni",
+          "link": "/form-multistep"
         },
         "image": {
-          "src": "https://api.brix-ia.com/uploads/fifia_con_occhiali_hacker_min_eab3880e50.png",
-          "alt": "Immagine Blocco"
+          "src": "https://api.brix-ia.com/uploads/notebook_1_nobg_m_b80b556755.png",
+          "alt": "Perchè Serve GPT in Azienda"
+        },
+        "imagePosition": "left"
+      };
+
+const BigCard2Data = {
+        "title": "📍 Dove e Come si Svolge la Formazione?",
+        "subtitle": "📌 Direttamente presso la tua azienda a Brescia e provincia",
+        "description": "👉 Formiamo il tuo team direttamente in sede per garantire un apprendimento contestualizzato e immediatamente applicabile.<br>🔹 Modalità del corso:<br>✅ Mezza giornata (4 ore)<br> – €1.200 per max 10 partecipanti<br>✅ Giornata intera (6 ore) – €2.000 con esercizi avanzati<br>✅ Pacchetti personalizzati per team di diverse aree aziendali",
+        "cta": {
+          "text": "Richiedi Informazioni",
+          "link": "/form-multistep"
+        },
+        "image": {
+          "src": "https://api.brix-ia.com/uploads/notebook_1_nobg_m_b80b556755.png",
+          "alt": "Perchè Serve GPT in Azienda"
         },
         "imagePosition": "right"
       };
-
+      
+// Dati per la nuova sezione del programma
+const courseProgram = {
+  title: "Programma Dettagliato del Corso",
+  descriptionLeft: `
+    1️⃣ <strong>Introduzione all’IA aziendale</strong><br>
+     🟢 Cos’è l’intelligenza artificiale per le imprese?<br>
+     🟢 Come ottimizzare i flussi di lavoro con l’AI<br><br>
+    2️⃣ <strong>Interfaccia e funzionalità di base di ChatGPT</strong><br>
+     🟢 Prompt efficaci per migliorare la produttività<br>
+     🟢 Generazione automatizzata di testi e documenti<br>
+     🟢 Creazione di immagini con AI<br><br>
+    3️⃣ <strong>Strumenti avanzati per aziende</strong><br>
+     🟢 ChatGPT per il customer service e l’assistenza clienti<br>
+     🟢 Automazione della gestione documentale<br>
+     🟢 Analisi dati e reportistica
+  `,
+  descriptionRight: `
+    4️⃣ <strong>Personalizzazione e ingegneria dei prompt</strong><br>
+     🟢 Ottimizzazione dei prompt per compiti aziendali specifici<br>
+     🟢 Creazione di flussi di lavoro AI-based<br><br>
+    5️⃣ <strong>Applicazioni pratiche nei vari settori</strong><br>
+     🟢 Marketing AI: copywriting, email, analisi trend<br>
+     🟢 Vendite AI: gestione clienti, lead generation<br>
+     🟢 HR e amministrazione: automatizzazione della selezione e gestione documentale
+  `,
+  cta: {
+    text: "Richiedi Informazioni",
+    link: "/form-multistep"
+  }
+};
 
 const faqData = [
   {
@@ -70,27 +114,27 @@ const faqData = [
     answer: "Brix-IA è la prima community di Brescia dedicata all’Intelligenza Artificiale. Il suo obiettivo è creare uno spazio di condivisione e sperimentazione in cui professionisti, studenti, imprenditori e appassionati possano incontrarsi, collaborare e sviluppare progetti concreti legati all’AI."
   },
   {
-    question: "Chi può entrare a far parte della community?",
-    answer: "Brix-IA è aperta a tutti, indipendentemente dal livello di esperienza. Non importa se sei un esperto di AI, uno studente, un imprenditore o semplicemente un curioso: se hai voglia di imparare e condividere, troverai un ambiente inclusivo e stimolante."
+    question: "In cosa consiste il corso di formazione sull'intelligenza artificiale offerto da Brix-IA?",
+    answer: "Il corso offre un approccio pratico all'uso dell'intelligenza artificiale in azienda, focalizzandosi su ChatGPT, automazione e produttività. Il programma copre l'introduzione all'IA aziendale, l'uso di ChatGPT, strumenti avanzati per le aziende, personalizzazione dei prompt e applicazioni pratiche in vari settori."
+  },
+  {
+    question: "Dove e come si svolge la formazione di Brix-IA?",
+    answer: "La formazione si svolge direttamente presso la sede dell'azienda a Brescia e provincia, garantendo un apprendimento contestualizzato e immediatamente applicabile. Sono disponibili modalità di mezza giornata (4 ore) o giornata intera (6 ore) con esercizi avanzati."
+  },
+  {
+    question: "Chi può entrare a far parte della community Brix-IA?",
+    answer: "Brix-IA è aperta a tutti, indipendentemente dal livello di esperienza. Professionisti, studenti, imprenditori e appassionati che desiderano imparare e condividere conoscenze nel campo dell'intelligenza artificiale sono i benvenuti."
   },
   {
     question: "Quali attività organizza Brix-IA?",
-    answer: "La community organizza workshop pratici, hackathon, meetup tematici e progetti collaborativi per applicare l’AI in ambiti concreti. Inoltre, Brix-IA collabora con aziende e istituzioni per favorire l’innovazione e la crescita professionale dei suoi membri."
-  },
-  {
-    question: "Come posso partecipare agli eventi di Brix-IA?",
-    answer: "Puoi partecipare agli eventi di Brix-IA iscrivendoti al gruppo Telegram ufficiale, seguendo la community sui social o visitando il sito web per rimanere aggiornato sul calendario delle attività. La maggior parte degli eventi è gratuita e aperta a tutti."
-  },
-  {
-    question: "Quali vantaggi offre far parte di Brix-IA?",
-    answer: "Entrare in Brix-IA ti permette di accedere a formazione gratuita, networking con esperti del settore, collaborazioni con aziende innovative e opportunità di crescita professionale. Inoltre, potrai proporre idee, sviluppare progetti reali e contribuire attivamente all’ecosistema AI di Brescia."
+    answer: "La community organizza workshop pratici, hackathon, meetup tematici e progetti collaborativi per applicare l'AI in ambiti concreti. Inoltre, collabora con aziende e istituzioni per favorire l'innovazione e la crescita professionale dei suoi membri."
   }
 ];
 ---
 
 <MainLayout 
   title="Corso Generative AI"
-  description="Scopri il potenziale dell'AI Generativa per aumentare la tua produttività con il nostro corso completo."
+  description="Formazione Intelligenza Artificiale a Brescia con Brix-IA."
   canonical="https://tuo-sito.com/corso-generative-ai"
   ogImage="https://tuo-sito.com/uploads/corso-generative-ai.jpg"
 >
@@ -133,7 +177,7 @@ const faqData = [
           ))}
         </ul>
         
-        <a href="#" class="inline-block text-white font-bold py-3 px-6 rounded-lg transition" style="background-color: #80FDBE; color: #1F2937;" onmouseover="this.style.backgroundColor='#00E0C6'" onmouseout="this.style.backgroundColor='#80FDBE'">{offerDetails.cta}</a>
+        <a href="/form-multistep" class="inline-block text-white font-bold py-3 px-6 rounded-lg transition" style="background-color: #80FDBE; color: #1F2937;" onmouseover="this.style.backgroundColor='#00E0C6'" onmouseout="this.style.backgroundColor='#80FDBE'">{offerDetails.cta}</a>
         <p class="text-sm text-gray-500 mt-4">{offerDetails.deadline}</p>
       </div>
     </div>
@@ -161,6 +205,68 @@ const faqData = [
         cta={BigCardData.cta}
         image={BigCardData.image}
         imagePosition={BigCardData.imagePosition}
+        />
+    </section>
+    <!-- Nuova sezione a schermo intero -->
+  <section class="w-full min-h-screen flex flex-col justify-center items-center text-white py-16 bg-[var(--bg-main)]">
+    <div class="container mx-auto px-4">
+      <!-- Layout a due colonne: Titolo a sinistra, Descrizione a destra -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <!-- Sezione 1: Titolo H2 (sinistra) -->
+        <div class="flex items-top">
+          <h2 class="text-4xl md:text-5xl font-bold" style="color: #80FDBE">
+            📚 Corsi di Formazione in Intelligenza Artificiale a Brescia con Brix-IA
+          </h2>
+        </div>
+        <!-- Sezione 2: Descrizione lunga (destra) -->
+        <div>
+          <p class="text-lg text-gray-300 leading-relaxed text-justify">
+            <strong>Brix-IA è una community</strong> di professionisti, imprenditori e innovatori che promuovono la <strong>formazione in intelligenza artificiale a Brescia.</strong><br> 
+            Il nostro obiettivo è <strong>diffondere la cultura dell’IA aziendale</strong>, offrendo corsi pratici e aggiornati sulle ultime tecnologie, come ChatGPT ed automazione AI.<br>
+            💡 Non siamo un centro di formazione tradizionale, ma un <strong>ecosistema collaborativo</strong> dove gli esperti condividono conoscenze e strategie per aiutare le aziende a integrare l’intelligenza artificiale nei propri processi.<br>
+            Il nostro corso offre un approccio <strong>pratico e operativo</strong> all’uso dell’intelligenza artificiale <strong>in azienda</strong>, con un focus su ChatGPT, automazione e produttività.
+          </p>
+        </div>
+      </div>
+
+      <!-- Sezione 3: Scheda Programma (modificata, senza immagine) -->
+        <div class="p-8 mx-4 md:mx-20 lg:mx-32 rounded-3xl border border-[var(--color-text-secondary)] shadow-lg bg-[var(--color-dark)] text-gray-300">
+          <!-- Titolo sopra -->
+          <h2 class="text-2xl md:text-3xl font-bold mb-6 text-[var(--color-accent)]">
+            {courseProgram.title}
+          </h2>
+          <!-- Contenitore per le due colonne sotto il titolo -->
+          <div class="flex flex-col md:flex-row items-start">
+            <!-- Parte sinistra: Primi 3 punti -->
+            <div class="flex-1 md:w-1/2 md:pr-6 mb-6 md:mb-0">
+              <p class="mb-6 text-gray-400 leading-relaxed" set:html={courseProgram.descriptionLeft} />
+            </div>
+            <!-- Parte destra: Ultimi 2 punti + CTA -->
+            <div class="flex-1 md:w-1/2">
+              <p class="mb-6 text-gray-400 leading-relaxed" set:html={courseProgram.descriptionRight} />
+              <a
+                class="inline-block py-2 px-6 bg-accent hover:bg-green-600 text-dark font-bold rounded-l-xl rounded-t-xl transition duration-200"
+                href={courseProgram.cta.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {courseProgram.cta.text}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Sezione BigCard -->
+  <section class="container mx-auto px-4 py-16 bg-[var(--bg-main)] text-white">
+    <BigCard
+        title={BigCard2Data.title}
+        subtitle={BigCard2Data.subtitle}
+        description={BigCard2Data.description}
+        cta={BigCard2Data.cta}
+        image={BigCard2Data.image}
+        imagePosition={BigCard2Data.imagePosition}
         />
     </section>
     <!-- Nuova sezione FAQ -->
