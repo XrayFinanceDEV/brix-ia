@@ -1,29 +1,69 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
-// import { getCollection } from "astro:content";
+
 export const prerender = false;
 
 const STRAPI_BASE_URL = import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com";
 const initialPage = parseInt(Astro.url.searchParams.get("page") || "1");
+const initialSearch = Astro.url.searchParams.get("search") || "";
+const initialCategory = Astro.url.searchParams.get("category") || "";
 
-// Primi 6 post
 const pageSize = 6;
 
-const fetchArticles = async (page: number) => {
-  const response = await fetch(
-    `${STRAPI_BASE_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=date:desc&populate=*`
-  );
+interface Category {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  locale: string | null;
+}
+
+interface Article {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  slug: string;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  locale: string | null;
+  cover?: {
+    id: number;
+    documentId: string;
+    url: string;
+    alternativeText: string;
+    name: string;
+    width: number;
+    height: number;
+  } | null;
+  // Add category if populated in your full response, e.g.:
+  // category?: { id: number; name: string } | null;
+}
+
+const fetchCategories = async (): Promise<string[]> => {
+  const response = await fetch(`${STRAPI_BASE_URL}/api/categories`);
+  const data = await response.json();
+  return data.data.map((cat: Category) => cat.name);
+};
+
+const fetchArticles = async (page: number, search: string = "", category: string = "") => {
+  let url = `${STRAPI_BASE_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=date:desc&populate=*`;
+  if (search) url += `&filters[title][$containsi]=${encodeURIComponent(search)}`;
+  if (category) url += `&filters[category][name][$eq]=${encodeURIComponent(category)}`;
+
+  const response = await fetch(url);
   if (!response.ok) {
     console.error("Strapi Error", response.status);
-    return {
-      articles: [],
-      hasMore: false,
-      totalPages: 0,
-    };
+    return { articles: [], hasMore: false, totalPages: 0 };
   }
 
   const data = await response.json();
-
   const { data: fetchedArticles, meta } = data;
   return {
     articles: fetchedArticles,
@@ -32,118 +72,161 @@ const fetchArticles = async (page: number) => {
   };
 };
 
-
-  const {
-    articles: initialArticles,
-    hasMore: initialHasMore,
-    totalPages,
-  } = await fetchArticles(initialPage);
-
-  interface Article {
-  title: string;
-  description: string;
-  slug: string;
-  cover?: { url: string };
-  date: string;
-}
+const categories = await fetchCategories();
+const { articles: initialArticles, hasMore: initialHasMore, totalPages } = await fetchArticles(initialPage, initialSearch, initialCategory);
 ---
 
 <MainLayout title="News della Community Brix-IA">
   <section class="container mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold mb-6 mt-[100px]">Guide e News della Community Brix-IA</h1>
 
-    <div class="articles-container">    
+    <div class="mb-8">
+      <form id="search-form" class="flex flex-col md:flex-row gap-4">
+        <div class="flex-1">
+          <input
+            type="text"
+            name="search"
+            value={initialSearch}
+            placeholder="Cerca per titolo..."
+            class="w-full p-2 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:border-[var(--color-accent)]"
+          />
+        </div>
+        <div>
+          <select
+            name="category"
+            class="w-full md:w-48 p-2 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:border-[var(--color-accent)]"
+          >
+            <option value="" class="bg-gray-800 text-gray-200">Tutte le categorie</option>
+            {categories.map(category => (
+              <option value={category} selected={initialCategory === category} class="bg-gray-800 text-gray-200">{category}</option>
+            ))}
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="articles-container">
       <div id="post-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {
-          initialArticles.map((article: Article) => {
-            const { title, description, slug, cover, date } = article;
-            const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
-            return (
-              <a href={`/blog/${slug}`} class="block bg-primary rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col group">
-                <img 
-                  src={imageUrl} 
-                  alt={title} 
-                  width="444" 
-                  height="250" 
-                  class="w-full h-40 object-cover rounded-t-lg transition duration-300 group-hover:brightness-110"
-                />
-                <div class="p-6 flex flex-col flex-1">
-                  <p class="mb-2 text-xs" style="color: var(--color-accent);">{new Date(date).toLocaleDateString('it-IT')}</p>
-                  <h2 class="text-2xl font-bold mb-2 text-white transition-colors duration-300 group-hover:text-[var(--color-accent)]">{title}</h2>
-                  <p class="text-secondary mb-4 flex-grow">{description}</p>
-                </div>
-              </a>
-            );
-          })
-        }
-      </div>
-
-      <div id="article-loader" class="loader" style="display: none;">Loading...</div>
-  </section>
-
-  <!-- Il tuo script rimane invariato, ma lo aggiorno per il nuovo HTML -->
-  <script define:vars={{ initialHasMore, initialPage, pageSize, totalPages, STRAPI_BASE_URL }}>
-    let isLoading = false;
-    let hasMore = initialHasMore;
-    let currentPage = initialPage;
-    
-    const articleLoader = document.getElementById("article-loader");
-    const articlesGrid = document.getElementById("post-container");
-  
-    const fetchMoreArticles = async () => {
-      if (isLoading || !hasMore) return;
-  
-      isLoading = true;
-      articleLoader.style.display = "block";
-  
-      try {
-        const response = await fetch(
-          `${STRAPI_BASE_URL}/api/articles?pagination[page]=${currentPage + 1}&pagination[pageSize]=${pageSize}&sort=date:desc&populate=*`
-        );
-        const { data: articles, meta } = await response.json();
-        
-        if (articles.length === 0) {
-          hasMore = false;
-        } else {
-          currentPage++;
-          articles.forEach((article) => {
-            const { title, description, slug, cover, date } = article;
-            const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
-            const articleElement = document.createElement("a");
-            articleElement.href = `/blog/${slug}`;
-            articleElement.classList.add("block", "bg-primary", "rounded-xl", "shadow-md", "overflow-hidden", "hover:shadow-lg", "transition-shadow", "duration-300", "flex", "flex-col", "group");
-            articleElement.innerHTML = `
+        {initialArticles.map((article: Article) => {
+          const { title, description, slug, date, cover } = article; // No .attributes
+          const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
+          return (
+            <a href={`/blog/${slug}`} class="bg-primary rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col group">
               <img 
-                src="${imageUrl}" 
-                alt="${title}" 
+                src={imageUrl} 
+                alt={title} 
                 width="444" 
                 height="250" 
                 class="w-full h-40 object-cover rounded-t-lg transition duration-300 group-hover:brightness-110"
               />
               <div class="p-6 flex flex-col flex-1">
-                <p class="mb-2 text-xs" style="color: var(--color-accent);">${new Date(date).toLocaleDateString('it-IT')}</p>
-                <h2 class="text-2xl font-bold mb-2 text-white transition-colors duration-300 group-hover:text-[var(--color-accent)]">${title}</h2>
-                <p class="text-secondary mb-4 flex-grow">${description}</p>
+                <p class="mb-2 text-xs" style="color: var(--color-accent);">{new Date(date).toLocaleDateString('it-IT')}</p>
+                <h2 class="text-2xl font-bold mb-2 text-white transition-colors duration-300 group-hover:text-[var(--color-accent)]">{title}</h2>
+                <p class="text-secondary mb-4 flex-grow">{description}</p>
               </div>
-            `;
-            articlesGrid.appendChild(articleElement);
-          });
-          hasMore = currentPage < meta.pagination.pageCount;
-        }
+            </a>
+          );
+        })}
+      </div>
+      <div id="article-loader" class="loader text-gray-200" style="display: none;">Loading...</div>
+    </div>
+  </section>
+
+  <script define:vars={{ initialHasMore, initialPage, pageSize, totalPages, STRAPI_BASE_URL, initialSearch, initialCategory }}>
+    let isLoading = false;
+    let hasMore = initialHasMore;
+    let currentPage = initialPage;
+    let searchQuery = initialSearch;
+    let categoryFilter = initialCategory;
+    let debounceTimeout = null;
+
+    const articleLoader = document.getElementById("article-loader");
+    const articlesGrid = document.getElementById("post-container");
+    const searchInput = document.querySelector('input[name="search"]');
+    const categorySelect = document.querySelector('select[name="category"]');
+
+    const fetchArticles = async (page, search = "", category = "") => {
+      let url = `${STRAPI_BASE_URL}/api/articles?pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=date:desc&populate=*`;
+      if (search) url += `&filters[title][$containsi]=${encodeURIComponent(search)}`;
+      if (category) url += `&filters[category][name][$eq]=${encodeURIComponent(category)}`;
+
+      const response = await fetch(url);
+      const { data: articles, meta } = await response.json();
+      return { articles, meta };
+    };
+
+    const renderArticles = (articles) => {
+      articles.forEach((article) => {
+        const { title, description, slug, date, cover } = article; // No .attributes
+        const imageUrl = STRAPI_BASE_URL + (cover?.url || '/uploads/Visual_Birxia_64749c8600.jpg');
+        const articleElement = document.createElement("a");
+        articleElement.href = `/blog/${slug}`;
+        articleElement.classList.add("block", "bg-primary", "rounded-xl", "shadow-md", "overflow-hidden", "hover:shadow-lg", "transition-shadow", "duration-300", "flex", "flex-col", "group");
+        articleElement.innerHTML = `
+          <img 
+            src="${imageUrl}" 
+            alt="${title}" 
+            width="444" 
+            height="250" 
+            class="w-full h-40 object-cover rounded-t-lg transition duration-300 group-hover:brightness-110"
+          />
+          <div class="p-6 flex flex-col flex-1">
+            <p class="mb-2 text-xs" style="color: var(--color-accent);">${new Date(date).toLocaleDateString('it-IT')}</p>
+            <h2 class="text-2xl font-bold mb-2 text-white transition-colors duration-300 group-hover:text-[var(--color-accent)]">${title}</h2>
+            <p class="text-secondary mb-4 flex-grow">${description}</p>
+          </div>
+        `;
+        articlesGrid.appendChild(articleElement);
+      });
+    };
+
+    const loadArticles = async (page) => {
+      if (isLoading) return;
+
+      isLoading = true;
+      articleLoader.style.display = "block";
+
+      try {
+        const { articles, meta } = await fetchArticles(page, searchQuery, categoryFilter);
+        if (page === 1) articlesGrid.innerHTML = "";
+        renderArticles(articles);
+        hasMore = page < meta.pagination.pageCount;
+        currentPage = page;
       } catch (error) {
         console.error("Error fetching articles:", error);
         hasMore = false;
       } finally {
         isLoading = false;
         articleLoader.style.display = hasMore ? "none" : "block";
-        articleLoader.textContent = hasMore
-          ? "Carico altri articoli ..."
-          : "Non ci sono più articoli";
-  
-        if (!hasMore) {
-          window.removeEventListener("scroll", handleScroll);
-        }
+        articleLoader.textContent = hasMore ? "Carico altri articoli ..." : "Non ci sono più articoli";
       }
+    };
+
+    const handleSearch = () => {
+      currentPage = 1;
+      hasMore = true;
+      loadArticles(currentPage);
+
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set("page", "1");
+      if (searchQuery) newUrl.searchParams.set("search", searchQuery);
+      else newUrl.searchParams.delete("search");
+      if (categoryFilter) newUrl.searchParams.set("category", categoryFilter);
+      else newUrl.searchParams.delete("category");
+      window.history.pushState({}, "", newUrl);
+    };
+
+    const debounceSearch = () => {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        searchQuery = searchInput.value;
+        handleSearch();
+      }, 300);
+    };
+
+    const handleCategoryChange = () => {
+      categoryFilter = categorySelect.value;
+      handleSearch();
     };
 
     const handleScroll = () => {
@@ -153,10 +236,12 @@ const fetchArticles = async (page: number) => {
       const clientHeight = window.innerHeight || document.documentElement.clientHeight;
 
       if (scrollTop + clientHeight >= scrollHeight - 200) {
-        fetchMoreArticles();
+        loadArticles(currentPage + 1);
       }
     };
 
+    searchInput.addEventListener("input", debounceSearch);
+    categorySelect.addEventListener("change", handleCategoryChange);
     window.addEventListener("scroll", handleScroll);
   </script>
 </MainLayout>

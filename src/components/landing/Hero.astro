@@ -1,0 +1,41 @@
+---
+import ButtonLink from "@components/ButtonLink.astro";
+---
+
+<section class="relative overflow-hidden py-20">
+  {/*
+    Background Image con overlay leggero per la leggibilità del testo
+  */}
+  <div class="absolute inset-0 z-0">
+    <div class="relative h-full w-full">
+      <img
+        src="https://www.mwspace.ai/img/mwspace.ai.agent.image.png"
+        alt="AI Agent Background"
+        class="object-contain object-right w-full h-full"
+        loading="eager"
+      />
+    </div>
+    <div class="absolute inset-0 bg-background/10"></div>
+  </div>
+
+  {/*
+    Contenuto centrale
+  */}
+  <div class="relative z-10 mx-auto px-4 text-center md:px-6">
+    <h1 class="mb-6 text-4xl font-bold leading-tight tracking-tighter text-white md:text-5xl lg:text-6xl">
+      Artificial Intelligence<br />
+      for your Business
+    </h1>
+    <p class="mx-auto mb-10 max-w-3xl text-xl text-white/80">
+      Crea i tuoi Agent AI capaci di gestire chat, appuntamenti e leggere documenti.
+      <br class="hidden md:inline" />
+      Compatibili con WhatsApp, Facebook, e-mail e altri canali, operano 24/7 per supporto, vendite e si collegano
+      ovunque.
+      <br class="hidden md:inline" />
+      Possono parlare con Voce Naturale ed eseguire Task Automatici.
+    </p>
+    <ButtonLink href="#" class="bg-primary px-8 py-6 text-lg text-primary-foreground hover:bg-primary/90">
+      Inizia con AI
+    </ButtonLink>
+  </div>
+</section>

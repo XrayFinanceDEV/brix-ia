@@ -1,6 +1,6 @@
 ---
 import MainLayout from "@layouts/MainLayout.astro";
-import ButtonLink from "@components/ButtonLink.astro";
+import Slider from "@components/blocks/Slider.astro";
 import "../themes/dark.css";
 import Hero from "@components/blocks/Hero.astro";
 import FeaturesCard from "@components/blocks/FeaturesCard.astro";
@@ -25,6 +25,65 @@ const featuresCards = content.featuresCards as FeaturesCardData[];
 const bigCardTest = content.bigCard;
 const bigCardDue = content.bigCard2;
 const faqData = content.faq;
+
+interface ImageData {
+  id: number;
+  documentId: string;
+  url: string;
+  alternativeText: string;
+  name: string;
+  width: number;
+  height: number;
+}
+
+// Hardcoded images for the slider
+const sliderImages: ImageData[] = [
+  {
+    id: 1,
+    documentId: "evento1",
+    url: "/uploads/evento_1_Primo_Meetup_Brix_IA_0affd8c7f1.webp",
+    alternativeText: "Primo Meetup Brix-IA Community Brescia Intelligenza Artificiale",
+    name: "evento_1_Primo_Meetup_Brix_IA",
+    width: 1200,
+    height: 600,
+  },
+  {
+    id: 2,
+    documentId: "evento2",
+    url: "/uploads/evento_2_Secondo_Meetup_Workshop_Brix_IA_ab2918ecbc.webp",
+    alternativeText: "Secondo Workshop Brix-Ia Community Brescia Intelligenza Artificiale",
+    name: "Secondo_Meetup_Workshop_Brix_IA",
+    width: 1200,
+    height: 600,
+  },
+  {
+    id: 3,
+    documentId: "evento3",
+    url: "/uploads/evento_3_Terzo_Meetup_Brix_IA_708e933152.webp",
+    alternativeText: "Terzo Meetup Brix-IA Community Brescia Intelligenza Artificiale",
+    name: "evento_3_Terzo_Meetup_Brix_IA",
+    width: 1200,
+    height: 600,
+  },
+  {
+    id: 4,
+    documentId: "evento4",
+    url: "/uploads/Brix_IA_4_meetup_10_04_2025_6106242d32.webp",
+    alternativeText: "Quarto Meetup Brix-IA Community Brescia Intelligenza Artificiale",
+    name: "evento_4_Quarto_Meetup_Brix_IA",
+    width: 1200,
+    height: 600,
+  },
+  {
+    id: 5,
+    documentId: "evento5",
+    url: "/uploads/Meetup_15_05_2025_Brix_IA_441a20dc6b.webp",
+    alternativeText: "V Meetup Brix-IA Community Brescia Intelligenza Artificiale",
+    name: "evento_5_Quarto_Meetup_Brix_IA",
+    width: 1200,
+    height: 600,
+  },
+];
 ---
 
 <MainLayout 
@@ -35,11 +94,29 @@ const faqData = content.faq;
 >
   <Hero />
   <!-- Sezione Evento -->
-  <div class="flex justify-center items-center mt-8 py-4 px-4">
-    <a href="https://www.eventbrite.it/e/biglietti-iii-incontro-brix-ia-meet-up-teoria-e-pratica-1252767634719" target="_blank" rel="noopener noreferrer">
-      <img src="https://api.brix-ia.com/uploads/Brix_IA_III_meetup_b0afe07385.webp" alt="III Incontro Brix-IA Meet-Up Teoria e Pratica" class="rounded-xl">
-    </a>
-  </div>  
+ <!-- Slider Section -->
+<section class="py-8">
+  <div class="container mx-auto px-4">
+   
+    <!-- Image above Slider -->
+    <div class="flex justify-center items-center mt-8 py-4 px-4">
+      <a href="https://www.eventbrite.it/e/biglietti-vi-incontro-brix-ia-meet-up-1372244603549" target="_blank" rel="noopener noreferrer">
+        <img 
+          src="https://api.brix-ia.com/uploads/Brix_IA_19_06_2025_bd8315d468.webp" 
+          alt="6° Incontro / Meetup Brix-IA" 
+          class="max-w-4xl w-full rounded-xl"
+        >
+      </a>
+    </div>
+    <!-- Slider -->
+    <h2 class="text-3xl font-bold text-center text-[var(--color-accent)] m-8">
+      Ultimi Eventi della Community Brix-IA 
+    </h2>
+    <div class="max-w-4xl mx-auto">
+      <Slider files={sliderImages} interval={5000} />
+    </div>
+  </div>
+</section>
 
   <!-- Sezione Features Cards -->
   <section class="py-16">

@@ -1,0 +1,16 @@
+---
+import MainLayout from "@layouts/MainLayout.astro";
+import Hero from "src/components/landing/Hero.astro";
+import VideoSection from "src/components/VideoSection";
+import Features from "src/components/landing/Features.astro";
+---
+<MainLayout 
+  title="La Community di Brix-IA"
+  description="Brix-IA community: scopri i talenti impegnati nello sviluppo e testing dell'intelligenza artificiale a Brescia"
+  canonical="https://brix-ia.com/community"
+  ogImage="https://api.brix-ia.com/uploads/Brix_IA_community_0a3d74301d.jpg"
+>
+  <Hero />
+  <VideoSection client:load />
+   <Features />
+</MainLayout>
