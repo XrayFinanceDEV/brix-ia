@@ -4,7 +4,7 @@ import type { ZodTypeAny, ZodObject } from "zod";
 
 // Configuration constants
 const STRAPI_BASE_URL =
-  import.meta.env.STRAPI_BASE_URL || "http://api.brix-ia.com:1337";
+  import.meta.env.STRAPI_BASE_URL || "https://api.brix-ia.com"; // Usa HTTPS
 const SYNC_INTERVAL = 60 * 1000; // 1 minute in milliseconds
 
 /**
@@ -12,7 +12,6 @@ const SYNC_INTERVAL = 60 * 1000; // 1 minute in milliseconds
  * @param contentType The Strapi content type to load
  * @returns An Astro loader for the specified content type
  */
-
 export function strapiLoader({ contentType }: { contentType: string }): Loader {
   return {
     name: "strapi-posts",
@@ -29,11 +28,10 @@ export function strapiLoader({ contentType }: { contentType: string }): Loader {
       logger.info("Fetching posts from Strapi");
 
       try {
-        // Fetch and store the content
-        const data = await fetchFromStrapi(`/api/${contentType}s`);
-        const posts = data?.data;
+        // Fetch all pages of content
+        const allPosts = await fetchAllFromStrapi(`/api/${contentType}s`);
 
-        if (!posts || !Array.isArray(posts)) {
+        if (!allPosts || !Array.isArray(allPosts)) {
           throw new Error("Invalid data received from Strapi");
         }
 
@@ -51,7 +49,10 @@ export function strapiLoader({ contentType }: { contentType: string }): Loader {
         type Post = z.infer<typeof schema>;
 
         store.clear();
-        posts.forEach((post: Post) => store.set({ id: post.id, data: post }));
+        allPosts.forEach((post: Post) => {
+          console.log("Post sincronizzato:", post.slug); // Debug
+          store.set({ id: post.id, data: post });
+        });
 
         meta.set("lastSynced", String(Date.now()));
       } catch (error) {
@@ -72,6 +73,90 @@ export function strapiLoader({ contentType }: { contentType: string }): Loader {
       return generateZodSchema(data.attributes);
     },
   };
+}
+
+/**
+ * Fetches all data from Strapi, handling pagination
+ * @param path The API endpoint path
+ * @param params Optional query parameters
+ * @returns All items from the API across all pages
+ */
+async function fetchAllFromStrapi(
+  path: string,
+  params: Record<string, string> = { populate: "*" }
+): Promise<any[]> {
+  const url = new URL(path, STRAPI_BASE_URL);
+  let allData: any[] = [];
+  let page = 1;
+  const pageSize = 25; // Strapi default
+
+  while (true) {
+    const pageParams = {
+      ...params,
+      "pagination[page]": page.toString(),
+      "pagination[pageSize]": pageSize.toString(),
+    };
+
+    Object.entries(pageParams).forEach(([key, value]) => {
+      url.searchParams.set(key, value);
+    });
+
+    try {
+      const response = await fetch(url.href);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch from Strapi: ${response.statusText}`);
+      }
+      const { data, meta } = await response.json();
+      
+      if (!data || !Array.isArray(data)) {
+        throw new Error("Invalid data received from Strapi");
+      }
+
+      allData = [...allData, ...data];
+
+      // Check if there are more pages
+      const { pageCount } = meta.pagination;
+      if (page >= pageCount) {
+        break;
+      }
+      page++;
+    } catch (error) {
+      console.error(`Error fetching from Strapi: ${(error as Error).message}`);
+      throw error;
+    }
+  }
+
+  return allData;
+}
+
+/**
+ * Fetches a single page of data from the Strapi API
+ * @param path The API endpoint path
+ * @param params Optional query parameters
+ * @returns The JSON response from the API
+ */
+async function fetchFromStrapi(
+  path: string,
+  params?: Record<string, string>
+): Promise<any> {
+  const url = new URL(path, STRAPI_BASE_URL);
+
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      url.searchParams.set(key, value);
+    });
+  }
+
+  try {
+    const response = await fetch(url.href);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch from Strapi: ${response.statusText}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error(`Error fetching from Strapi: ${(error as Error).message}`);
+    throw error;
+  }
 }
 
 /**
@@ -142,36 +227,6 @@ function generateZodSchema(attributes: Record<string, any>): ZodObject<any> {
     shape[key] = mapTypeToZodSchema(type, rest);
   }
   return z.object(shape);
-}
-
-/**
- * Fetches data from the Strapi API
- * @param path The API endpoint path
- * @param params Optional query parameters
- * @returns The JSON response from the API
- */
-async function fetchFromStrapi(
-  path: string,
-  params?: Record<string, string>
-): Promise<any> {
-  const url = new URL(path, STRAPI_BASE_URL);
-
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.set(key, value);
-    });
-  }
-
-  try {
-    const response = await fetch(url.href);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch from Strapi: ${response.statusText}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error(`Error fetching from Strapi: ${(error as Error).message}`);
-    throw error; // Re-throw the error for the caller to handle
-  }
 }
 
 // Ensure the required environment variable is set
