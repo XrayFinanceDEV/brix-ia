@@ -13,4 +13,8 @@
       "@icons/*": ["src/icons/*"]
     }
   },
+  "exclude": [
+    "docs/**/*",
+    "node_modules"
+  ]
 }

@@ -10,4 +10,22 @@ export default defineConfig({
     contentLayer: true, // Enable content layer collections
   },
   integrations: [tailwind(), icon(), react()],
+  
+  // Ottimizzazioni per build più veloci
+  vite: {
+    build: {
+      minify: 'esbuild', // Build più veloce
+      cssMinify: true,
+    }
+  },
+  
+  // Cache ottimizzata
+  output: 'static',
+  
+  // Compressione immagini
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp'
+    }
+  }
 });
