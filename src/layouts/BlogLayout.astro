@@ -44,13 +44,16 @@ const { title, description, link, ogImage } = Astro.props;
     @apply text-blue-600 hover:text-blue-800;
   }
   .prose blockquote {
-    @apply border-l-4 border-gray-300 pl-4 italic;
+    @apply border-l-4 border-gray-400 pl-6 pr-6 italic bg-gray-100 py-4 my-6 rounded-r-lg;
   }
   .prose code {
-    @apply bg-gray-100 rounded px-1;
+    @apply bg-gray-100 rounded px-2 py-1 text-sm font-mono;
   }
   .prose pre {
-    @apply bg-gray-100 p-4 rounded overflow-x-auto;
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+  }
+  .prose pre code {
+    @apply bg-transparent text-gray-100 p-0;
   }
 
   /* Stili per le tabelle */
@@ -65,5 +68,33 @@ const { title, description, link, ogImage } = Astro.props;
   }
   .prose th {
     @apply bg-gray-200 font-semibold;
+  }
+
+  /* Stili aggiuntivi per elementi markdown */
+  .prose strong {
+    @apply font-bold;
+  }
+  .prose em {
+    @apply italic;
+  }
+  .prose hr {
+    @apply border-gray-300 my-6;
+  }
+
+  /* Fix per elementi inline code dentro paragrafi */
+  .prose p code,
+  .prose li code {
+    @apply bg-gray-100 text-red-600 px-1 py-0.5 rounded text-sm font-mono;
+  }
+
+  /* Stili per liste annidate */
+  .prose ul ul, .prose ol ol, .prose ul ol, .prose ol ul {
+    @apply mt-2 mb-2;
+  }
+
+  /* Assicurati che tutte le blockquote abbiano sfondo grigio */
+  .prose blockquote,
+  blockquote {
+    @apply bg-gray-100 border-l-4 border-gray-400 !important;
   }
 </style>

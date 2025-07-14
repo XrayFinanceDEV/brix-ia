@@ -8,9 +8,16 @@ interface RichTextProps {
 }
 
 const { body } = Astro.props as RichTextProps;
+
+// Configura marked per una migliore gestione del markdown
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+});
+
 const parsedContent = marked.parse(body);
 ---
 
-<div class="max-w-5xl mx-auto my-12 rich-text">
+<div class="max-w-5xl mx-auto my-12 prose prose-lg prose-gray max-w-none">
   <article set:html={parsedContent} />
 </div>
